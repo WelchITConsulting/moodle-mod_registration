@@ -20,11 +20,13 @@
  * Created  : 24 Jan 2015
  */
 
+$string['module']                       = 'Registration';
+$string['modulenameplural']             = 'Registrations';
+$string['modulename_help']              = 'The registration module allows you to create events and provide the ability for interested course members to express an interest in attending.';
 $string['pluginadministration']         = 'Registration administration';
 $string['pluginname']                   = 'Registration';
-$string['']         = '';
-$string['']         = '';
-$string['']         = '';
+
+
 $string['']         = '';
 $string['']         = '';
 $string['']         = '';
