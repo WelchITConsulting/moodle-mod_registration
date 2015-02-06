@@ -17,6 +17,7 @@
  *
  * Filename : locallib
  * Author   : John Welch <jwelch@welchitconsulting.co.uk>
+<<<<<<< HEAD
  * Created  : 25 Jan 2015
  */
 

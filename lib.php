@@ -22,15 +22,37 @@
 
 function registration_add_instance($registration)
 {
+    $registration->timemodified = time();
+    $registration->timecreated  = $registration->timemodified;
 
+    if (!($registration->id = $DB->insert_record('registration', $registration))) {
+        return false;
+    }
+    return $registration->id;
 }
 
 function registration_update_instance($registration)
 {
+    $registration->timemodified = time();
 
+    return $DB->update_record('registration', $registration);
 }
 
 function registration_delete_instance($id)
 {
+    global $DB;
 
+    if (!($regisration = $DB->get_record('registration', array('id' => $id)))) {
+        return false;
+    }
+    if (!$DB->delete_records('registration_submissions', array('registration' => $regisration->id))) {
+        return false;
+    }
+    if (!$DB->delete_records('registration', array('id' => $regisration->id))) {
+        return false;
+    }
+    if (!$DB->delete_records('event', array('module_name' => 'registration', 'instance' => $registration->id))) {
+        return false;
+    }
+    return true;
 }
