@@ -28,39 +28,23 @@ if (!isset($SESSION->registration)) {
 }
 $SESSION->registration->current_tab = 'view';
 
-$id = optional_param('id', null, PARAM_INT);
-$a  = optional_param('a',  null, PARAM_INT);
+$id = required_param('id', null, PARAM_INT);
 
-if ($id) {
-    if (!($cm = get_coursemodule_from_id('registration', $id))) {
-        print_error('invalidcoursemodule');
-    }
-    if (!($course = $DB->get_record('course', array('id' => $cm->course)))) {
-        print_error('coursemisconf');
-    }
-    if (!($registration = $DB->get_record('registration', array('id' => $cm->instance)))) {
-        print_error('invalidcoursemodule');
-    }
-} else {
-    if (!($registration = $DB->get_record('registration', array('id' => $id)))) {
-        print_error('invalidcoursemodule');
-    }
-    if (!($course = $DB->get_record('course', array('id' => $registration->course)))) {
-        print_error('coursemisconf');
-    }
-    if (!($cm = get_coursemodule_from_instance('registration', $registration->id, $course->id))) {
-        print_error('invalidcoursemodule');
-    }
+if (!($cm = get_coursemodule_from_id('registration', $id))) {
+    print_error('invalidcoursemodule');
 }
+if (!($course = $DB->get_record('course', array('id' => $cm->course)))) {
+    print_error('coursemisconf');
+}
+if (!($registration = $DB->get_record('registration', array('id' => $cm->instance)))) {
+    print_error('invalidcoursemodule');
+}
+
 require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 
 $url = new moodle_url($CFG->wwwroot . '/mod/registration/view.php');
-if (isset($id)) {
-    $url->param('id', $id);
-} else {
-    $url->param('a', $a);
-}
+$url->param('id', $id);
 $PAGE->set_url($url);
 $PAGE->set_context($url);
 $PAGE->set_title(format_string($registration->name));
