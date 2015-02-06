@@ -15,22 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Filename : install
+ * Filename : settings
  * Author   : John Welch <jwelch@welchitconsulting.co.uk>
- * Created  : 24 Jan 2015
+ * Created  : 25 Jan 2015
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_registration_install()
-{
-    global $DB;
-
-    $eventtypes = array('Exam', 'Workshop');
-
-    foreach($eventtypes as $type) {
-        $eventtype       = new stdClass();
-        $eventtype->name = $type;
-        $DB->insert_record('registration_event_types', $eventtype);
-    }
-}
+//if ($ADMIN->fulltree) {
+//    $options = array(0 => get_string('no'),
+//                     1 => get_string('yes'));
+//    $str = get_string('configusergraphlong', 'registration');
+//    $settings->add(new admin_setting_configselect('registration_usergraph',
+//                                                  get_string('configusergraph', 'registration'),
+//                                                  $str, 0, $options));
+//}

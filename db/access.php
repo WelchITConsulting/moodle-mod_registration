@@ -22,7 +22,7 @@
 
 $capabilities = array(
 
-    'mod_registration:addinstance' => array(
+    'mod/registration:addinstance' => array(
         'riskbitmask'   => RISK_XSS,
         'captype'       => 'write',
         'contextlevel'  => CONTEXT_COURSE,
@@ -33,8 +33,20 @@ $capabilities = array(
         'clonepermissionsform' => 'moodle/course:manageactivities'
     ),
 
-    'mod_registration:view' => array(
+    'mod/registration:view' => array(
         'captype'       => 'read',
+        'contextlevel'  => CONTEXT_MODULE,
+        'legacy'        => array(
+            'student'           => CAP_ALLOW,
+            'teacher'           => CAP_ALLOW,
+            'editingteacher'    => CAP_ALLOW,
+            'coursecreator'     => CAP_ALLOW,
+            'manager'           => CAP_ALLOW
+        )
+    ),
+
+    'mod/registration:submit' => array(
+        'captype'       => 'write',
         'contextlevel'  => CONTEXT_MODULE,
         'legacy'        => array(
             'student'           => CAP_ALLOW,

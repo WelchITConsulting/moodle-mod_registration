@@ -22,11 +22,40 @@
 
 function xmldb_registration_upgrade($oldversion = 0)
 {
-    if ($oldversion < 2015012400) {
-        // Process any database schema updates
+    global $DB;
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2015020600) {
+
+        // Process the database schema updates for the registration table
+        $table = new xmldb_table('registration');
+
+        // Add the events end time field
+        $field = new xmldb_field('endtime');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, 'eventdate');
+        $dbman->add_field($table, $field);
+
+        // Rename the eventdate field
+        $dbman->rename_field($table, 'eventdate', 'starttime');
+
+        // Process the database schema updates for the registration_submissions table
+        $table = new xmldb_table('registration_submissions');
+
+        // Add the notes fields
+        $field = new xmldb_field('notes');
+        $field->set_attributes(XMLDB_TYPE_TEXT, 'small', null, null, null, null, 'userid');
+        $dbman->add_field($table, $field);
+
+        // Add the status fields
+        $field = new xmldb_field('status');
+        $field->set_attributes(XMLDB_TYPE_CHAR, 1, null, null, null, null, 'notes');
+        $dbman->add_field($table, $field);
+
+        // Remove the mailed field
+        $dbman->drop_field($table, 'mailed');
 
         // Registration savepoint reached
-        upgrade_mod_savepoint(true, 2015012400, 'registration');
+        upgrade_mod_savepoint(true, 2015020600, 'registration');
     }
 
     return true;

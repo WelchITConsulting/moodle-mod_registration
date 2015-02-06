@@ -15,22 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Filename : install
+ * Filename : locallib
  * Author   : John Welch <jwelch@welchitconsulting.co.uk>
- * Created  : 24 Jan 2015
+ * Created  : 25 Jan 2015
  */
 
-defined('MOODLE_INTERNAL') || die();
+require_once($CFG->libdir . '/eventslib.php');
+require_once($CFG->dirroot . '/calendar/lib.php');
 
-function xmldb_registration_install()
+
+function registration_get_event_types()
 {
     global $DB;
 
-    $eventtypes = array('Exam', 'Workshop');
-
-    foreach($eventtypes as $type) {
-        $eventtype       = new stdClass();
-        $eventtype->name = $type;
-        $DB->insert_record('registration_event_types', $eventtype);
-    }
+    return $DB->get_records_sql('SELECT * FROM {registration_event_types} ORDER BY name');
 }
