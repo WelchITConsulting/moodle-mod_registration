@@ -33,10 +33,10 @@ $string['opendate']                     = 'Open date';
 $string['period']                       = 'Registration period';
 $string['pluginadministration']         = 'Registration administration';
 $string['pluginname']                   = 'Registration';
+$string['registration_open']            = 'Registration available:';
 $string['starttime']                    = 'Event start';
 
 
-//$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';

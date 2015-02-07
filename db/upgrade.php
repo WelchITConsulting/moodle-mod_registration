@@ -38,6 +38,26 @@ function xmldb_registration_upgrade($oldversion = 0)
         // Rename the eventdate field
         $dbman->rename_field($table, 'eventdate', 'starttime');
 
+        // Add the events end time field
+        $field = new xmldb_field('acceptsubject');
+        $field->set_attributes(XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'closedate');
+        $dbman->add_field($table, $field);
+
+        // Add the events end time field
+        $field = new xmldb_field('acceptemail');
+        $field->set_attributes(XMLDB_TYPE_TEXT, 'small', null, XMLDB_NOTNULL, null, null, 'acceptsubject');
+        $dbman->add_field($table, $field);
+
+        // Add the events end time field
+        $field = new xmldb_field('rejectsubject');
+        $field->set_attributes(XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'acceptemail');
+        $dbman->add_field($table, $field);
+
+        // Add the events end time field
+        $field = new xmldb_field('rejectemail');
+        $field->set_attributes(XMLDB_TYPE_TEXT, 'small', null, XMLDB_NOTNULL, null, null, 'rejectsubject');
+        $dbman->add_field($table, $field);
+
         // Process the database schema updates for the registration_submissions table
         $table = new xmldb_table('registration_submissions');
 

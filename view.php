@@ -56,3 +56,4 @@ if ($registration->intro) {
     echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
 }
 echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
+

@@ -31,3 +31,32 @@ function registration_get_event_types()
 
     return $DB->get_records_sql('SELECT * FROM {registration_event_types} ORDER BY name');
 }
+
+function registration_load_capailities($cmid)
+{
+    static $sbcb;
+
+    if (empty($sbcb)) {
+        $context = registration_get_context($cmid);
+        $sbcb = new object();
+        $sbcb->view                 = has_capability('mod/registration:view', $context);
+        $sbcb->viewsingleresponse   = has_capability('mod/registration:viewsingleresponse', $context);
+        $sbcb->deleteresponses      = has_capability('mod/registration:deleteresponses', $context);
+        $sbcb->downloadresponses    = has_capability('mod/registration:downloadresponses', $context);
+        $sbcb->submit               = has_capability('mod/registration:submit', $context);
+        $sbcb->manage               = has_capability('mod/registration:manage', $context);
+    }
+    return $sbcb;
+}
+
+function registration_get_context($cmid)
+{
+    static $sbcontext;
+
+    if (empty($sbcontext)) {
+        if (!($sbcontext = context_module::instance($cmid))) {
+            print_error('badcontext');
+        }
+    }
+    return $sbcontext;
+}

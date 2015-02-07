@@ -45,6 +45,54 @@ $capabilities = array(
         )
     ),
 
+    'mod/registration:viewsingleresponse' => array(
+        'captype'       => 'read',
+        'contextlevel'  => CONTEXT_MODULE,
+        'legacy'        => array(
+            'student'           => CAP_ALLOW,
+            'teacher'           => CAP_ALLOW,
+            'editingteacher'    => CAP_ALLOW,
+            'coursecreator'     => CAP_ALLOW,
+            'manager'           => CAP_ALLOW
+        )
+    ),
+
+    'mod/registration:deleteresponses' => array(
+        'captype'       => 'read',
+        'contextlevel'  => CONTEXT_MODULE,
+        'legacy'        => array(
+            'student'           => CAP_ALLOW,
+            'teacher'           => CAP_ALLOW,
+            'editingteacher'    => CAP_ALLOW,
+            'coursecreator'     => CAP_ALLOW,
+            'manager'           => CAP_ALLOW
+        )
+    ),
+
+    'mod/registration:downloadresponse' => array(
+        'captype'       => 'read',
+        'contextlevel'  => CONTEXT_MODULE,
+        'legacy'        => array(
+            'student'           => CAP_ALLOW,
+            'teacher'           => CAP_ALLOW,
+            'editingteacher'    => CAP_ALLOW,
+            'coursecreator'     => CAP_ALLOW,
+            'manager'           => CAP_ALLOW
+        )
+    ),
+
+    'mod/registration:manage' => array(
+        'captype'       => 'read',
+        'contextlevel'  => CONTEXT_MODULE,
+        'legacy'        => array(
+            'student'           => CAP_ALLOW,
+            'teacher'           => CAP_ALLOW,
+            'editingteacher'    => CAP_ALLOW,
+            'coursecreator'     => CAP_ALLOW,
+            'manager'           => CAP_ALLOW
+        )
+    ),
+
     'mod/registration:submit' => array(
         'captype'       => 'write',
         'contextlevel'  => CONTEXT_MODULE,
