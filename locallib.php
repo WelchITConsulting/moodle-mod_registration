@@ -111,7 +111,6 @@ function registration_create_events($registration)
         $event->timestart       = $registration->opendate;
         $event->visible         = instance_is_visible('registration', $registration);
         $event->timeduration    = ($registration->closedate - $registration->opendate);
-        calendar_event::create($event);
 
         if ($event <= REGISTRATION_MAX_EVENT_LENGTH) {
             // Create a singke event for the whole time
