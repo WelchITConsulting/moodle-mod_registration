@@ -24,8 +24,8 @@ require_once($CFG->dirroot . '/mod/registration/locallib.php');
 
 class SmartBridgeRegistration {
 
-    // Max time before separate calendar events are created - 5 days
-    private $max_event_length = 5 * 24 * 60 * 60;
+    // Max time before separate calendar events are created - 5 days (5 * 24 * 60 * 60)
+    private $max_event_length = 432000;
 
     public function __construct( &$course, &$cm, $id = 0, $registration = null)
     {
