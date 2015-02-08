@@ -68,8 +68,8 @@ $string['rejectsubject_help']           = 'This is the subject line for the emai
 $string['starttime']                    = 'Event start';
 
 
-//$string['']         = '';
-//$string['']         = '';
+$string['notes']         = 'Other notes';
+$string['yesnofield']         = 'I would like to attend';
 //$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';

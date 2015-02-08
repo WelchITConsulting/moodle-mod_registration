@@ -30,12 +30,12 @@ class registration_interest_form extends moodleform
     {
         $mform =& $this->_form;
 
-        $mform->addElement('yesno', '', get_string('', 'registration'));
-        $mform->setType('', PARAM_BOOL);
-        $mform->addRule('', get_string('', 'registration'), 'required');
+        $mform->addElement('yesno', 'yesnofield', get_string('yesno', 'registration'));
+        $mform->setType('yesnofield', PARAM_BOOL);
+        $mform->addRule('yesnofield', get_string('', 'registration'), 'required');
 
-        $mform->addElement('textarea', '', get_string('', 'registration'));
-        $mform->setType('', PARAM_RAW);
+        $mform->addElement('textarea', 'notes', get_string('notes', 'registration'));
+        $mform->setType('notes', PARAM_RAW);
 
         $mform->addElement('hidden', 'id', 0);
         $mform->setType('id', PARAM_INT);
