@@ -54,6 +54,7 @@ $string['opendate_help']                = 'The date and time when the registrati
 $string['period']                       = 'Registration period';
 $string['pluginadministration']         = 'Registration administration';
 $string['pluginname']                   = 'Registration';
+$string['registrationclosed']           = 'Registration is no longer open';
 $string['registrationcloses']           = 'Registration closes:';
 $string['registrationopen']             = 'Registration available:';
 $string['registrationopens']            = 'Registration opens:';
@@ -66,7 +67,6 @@ $string['rejectsubject_help']           = 'This is the subject line for the emai
 $string['starttime']                    = 'Event start';
 
 
-//$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';

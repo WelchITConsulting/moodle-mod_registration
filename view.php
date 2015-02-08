@@ -77,7 +77,9 @@ if ($registration->intro) {
 }
 echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
 
-
+if ($registration->is_registration_closed()) {
+    echo html_writer::div(get_string('registrationclosed', 'registration'), 'message');
+}
 
 
 
