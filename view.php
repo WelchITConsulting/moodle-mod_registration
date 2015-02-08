@@ -93,7 +93,7 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
     $mform = new registration_interest_form();
     $interest = new stdClass();
     $interest->id = $id;
-    $interest->userid = $userid;
+//    $interest->userid = $userid;
 
     if ($mform->is_cancelled()) {
         redirect($CFG->wwwroot . '/mod/register/view.php?id=' . $id);
