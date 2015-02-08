@@ -97,7 +97,7 @@ class SmartBridgeRegistration {
         // Add the event
         $event = new stdClass();
         $event->description     = $this->intro;
-        $event->format          = $tthis->introformat;
+        $event->format          = $this->introformat;
         $event->courseid        = $this->course;
         $event->groupid         = 0;
         $event->userid          = 0;
@@ -126,7 +126,7 @@ class SmartBridgeRegistration {
         // If set create registration period in the calendar
         if (($this->closedate - $this->opendate > 0) && ($this->closedate <= $this->starttime)) {
             $event = new stdClass();
-            $event->format          = $tthis->introformat;
+            $event->format          = $this->introformat;
             $event->courseid        = $this->course;
             $event->courseid        = $this->course;
             $event->groupid         = 0;
