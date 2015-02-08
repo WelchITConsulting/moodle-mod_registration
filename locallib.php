@@ -24,6 +24,8 @@
 require_once($CFG->libdir . '/eventslib.php');
 require_once($CFG->dirroot . '/calendar/lib.php');
 
+// Max time before separate calendar events are created - 5 days
+define('REGISTRATION_MAX_EVENT_LENGTH', (5 * 24 * 60 * 60));
 
 function registration_load_capailities($cmid)
 {
@@ -80,7 +82,7 @@ function registration_create_events($registration)
     $event->visible         = instance_is_visible('registration', $registration);
     $event->timeduration    = ($registration->endtime - $registration->starttime);
 
-    if ($event <= $$registration->max_event_length) {
+    if ($event <= REGISTRATION_MAX_EVENT_LENGTH) {
         // Create a singke event for the whole time
         $event->name = $registration->name;
         calendar_event::create($event);
@@ -111,7 +113,7 @@ function registration_create_events($registration)
         $event->timeduration    = ($registration->closedate - $registration->opendate);
         calendar_event::create($event);
 
-        if ($event <= $$registration->max_event_length) {
+        if ($event <= REGISTRATION_MAX_EVENT_LENGTH) {
             // Create a singke event for the whole time
             $event->name = get_string('registrationopen', 'registration') . ' ' . $registration->name;
             calendar_event::create($event);
