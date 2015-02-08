@@ -26,11 +26,11 @@ function xmldb_registration_install()
 {
     global $DB;
 
-    $eventtypes = array('Exam', 'Workshop');
-
-    foreach($eventtypes as $type) {
-        $eventtype       = new stdClass();
-        $eventtype->name = $type;
-        $DB->insert_record('registration_event_types', $eventtype);
-    }
+//    $eventtypes = array('Exam', 'Workshop');
+//
+//    foreach($eventtypes as $type) {
+//        $eventtype       = new stdClass();
+//        $eventtype->name = $type;
+//        $DB->insert_record('registration_event_types', $eventtype);
+//    }
 }
