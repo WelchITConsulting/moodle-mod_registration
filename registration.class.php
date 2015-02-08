@@ -24,6 +24,9 @@ require_once($CFG->dirroot . '/mod/registration/locallib.php');
 
 class SmartBridgeRegistration {
 
+    // Max time before separate calendar events are created - 5 days
+    private $max_event_length = 5 * 24 * 60 * 60;
+
     public function __construct( &$course, &$cm, $id = 0, $registration = null)
     {
         global $DB;
@@ -81,35 +84,74 @@ class SmartBridgeRegistration {
 
     public function create_events()
     {
+        global $DB;
+
+        // Rmove any previously created event
+        if ($events = $DB->get_records('event', array('modulename' => 'registration', 'instance' => $this->id))) {
+            foreach($events as $event) {
+                $event = calendar_event::load($event);
+                $event->delete();
+            }
+        }
+
         // Add the event
         $event = new stdClass();
-        $event->name            = $this->name;
-        $event->intro           = format_module_intro('registration', $this, $cmid);
+        $event->description     = format_module_intro('registration', $this, $cmid);
         $event->courseid        = $this->course;
         $event->groupid         = 0;
         $event->userid          = 0;
         $event->modulename      = 'registration';
         $event->instance        = $this->id;
-        $event->eventtype       = '';
-        $event->allowque        = '';
+        $event->eventtype       = 'open';
         $event->timestart       = $this->starttime;
-        $event->timeavailable   = $this->eventavailable;
-        $event->timeduration    = 0;
-        calendar_event::create($event);
+        $event->visible         = instance_is_visible('registration', $this);
+        $event->timeduration    = ($this->endtime - $this->starttime);
 
-        $event = new stdClass();
-        $event->name            - get_string('registration_open', 'registration') . ' ' . $this->name;
-        $event->intro           = format_module_intro('registration', $this, $cmid);
-        $event->courseid        = $this->course;
-        $event->groupid         = 0;
-        $event->userid          = 0;
-        $event->modulename      = 'registration';
-        $event->instance        = $this->id;
-        $event->eventtype       = '';
-        $event->allowque        = '';
-        $event->timestart       = $this->starttime;
-        $event->timeavailable   = $this->eventavailable;
-        $event->timeduration    = 0;
-        calendar_event::create($event);
+        if ($event <= $$this->max_event_length) {
+            // Create a singke event for the whole time
+            $event->name = $this->name;
+            calendar_event::create($event);
+        } else {
+            // Create separate events for the start and end of the period
+            $event->timeduration = 0;
+            $event->name = $this->name . ' (' . get_string('eventopens', 'registration') . ')';
+            calendar_event::create($event);
+            unset($event->id);
+            $event->name = $this->name . ' (' . get_string('eventcloses', 'registration') . ')';
+            $event->eventtype = 'close';
+            calendar_event::create($event);
+        }
+
+        // If set create registration period in the calendar
+        if (($this->closedate - $this->opendate > 0) && ($this->closedate <= $this->starttime)) {
+            $event = new stdClass();
+            $event->description     = format_module_intro('registration', $this, $cmid);
+            $event->courseid        = $this->course;
+            $event->groupid         = 0;
+            $event->userid          = 0;
+            $event->modulename      = 'registration';
+            $event->instance        = $this->id;
+            $event->eventtype       = 'open';
+            $event->timestart       = $this->opendate;
+            $event->visible         = instance_is_visible('registration', $this);
+            $event->timeduration    = ($this->closedate - $this->opendate);
+            calendar_event::create($event);
+
+            if ($event <= $$this->max_event_length) {
+                // Create a singke event for the whole time
+                $event->name = get_string('registrationopen', 'registration') . ' ' . $this->name;
+                calendar_event::create($event);
+            } else {
+                // Create separate events for the start and end of the period
+                $event->timeduration = 0;
+                $event->name = get_string('registrationopens', 'registration') . ' ' . $this->name;
+                calendar_event::create($event);
+                unset($event->id);
+                $event->name = get_string('registrationcloses', 'registration') . ' ' . $this->name;
+                $event->timestart = $this->closedate;
+                $event->eventtype = 'close';
+                calendar_event::create($event);
+            }
+        }
     }
 }

@@ -20,9 +20,14 @@
  * Created  : 24 Jan 2015
  */
 
+require_once($CFG->dirroot . '/mod/registration/registration.class.php');
+
 function registration_add_instance($registration)
 {
-    global $DB;
+    global $COURSE, $DB;
+
+    $cm = new Object();
+    $registration = new SmartBridgeRegistration($COURSE, $cm, 0, $registration);
 
     $registration->timemodified = time();
     $registration->timecreated  = $registration->timemodified;
@@ -30,15 +35,25 @@ function registration_add_instance($registration)
     if (!($registration->id = $DB->insert_record('registration', $registration))) {
         return false;
     }
+
+    // Create the events in the calendar
+    $registration->create_events();
+
     return $registration->id;
 }
 
 function registration_update_instance($registration)
 {
-    global $DB;
+    global $COURSE, $DB;
+
+    $cm = new Object();
+    $registration = new SmartBridgeRegistration($COURSE, $cm, 0, $registration);
 
     $registration->timemodified = time();
     $registration->id = $registration->instance;
+
+    // Create the events in the calendar
+    $registration->create_events();
 
     return $DB->update_record('registration', $registration);
 }
@@ -56,8 +71,11 @@ function registration_delete_instance($id)
     if (!$DB->delete_records('registration', array('id' => $regisration->id))) {
         return false;
     }
-    if (!$DB->delete_records('event', array('module_name' => 'registration', 'instance' => $registration->id))) {
-        return false;
+    if (!$events = $DB->get_records('event', array('module_name' => 'registration', 'instance' => $registration->id))) {
+        foreach($events as $event) {
+            $event = calendar_event::load($event);
+            $event->delete();
+        }
     }
     return true;
 }

@@ -77,5 +77,10 @@ if ($registration->intro) {
 }
 echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
 
+
+
+
+
+
 echo $OUTPUT->box_end()
    . $OUTPUT->footer();
