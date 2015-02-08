@@ -68,14 +68,5 @@ $string['rejectsubject_default']        = 'Sorry, you have not been successful';
 $string['rejectsubject_help']           = 'This is the subject line for the email sent to those who have not been allocated a space at the event.';
 $string['starttime']                    = 'Event start';
 $string['submitbutton']                 = 'Register for event';
+$string['submitted']                    = 'Thankyou for your interest, you will be notified via SmartBridge if you have been allocated a place.';
 $string['yesnofield']                   = 'Check this box if you would like to attend this event';
-
-
-//$string['']         = '';
-//$string['']         = '';
-//$string['']         = '';
-//$string['']         = '';
-//$string['']         = '';
-//$string['']         = '';
-//$string['']         = '';
-//$string['']         = '';

@@ -92,13 +92,18 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
     require_once($CFG->dirroot . '/mod/registration/interest_form.php');
     $mform = new registration_interest_form();
     $interest = new stdClass();
-    $interest->id = $id;
-//    $interest->userid = $userid;
+    $interest->registration = $registration->id;
+    $interest->userid = $USER->id;
+    $interest->status = 1;
 
     if ($mform->is_cancelled()) {
         redirect($CFG->wwwroot . '/mod/register/view.php?id=' . $id);
 
     } elseif ($data = $mform->get_data()) {
+        $interest->notes = $data->notes;
+        $interest->timecreated = time();
+        $interest->timemodified = $interest->timecreated;
+
         $DB->insert_record('registration_submissions', $interest);
         redirect($CFG->wwwroot . '/mod/register/view.php?id=' . $id);
 
@@ -106,6 +111,9 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
         $mform->set_data($interest);
         $mform->display();
     }
+
+} else {
+    echo html_writer::div(get_string('submitted', 'registration'), 'message');
 }
 
 
