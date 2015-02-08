@@ -78,4 +78,9 @@ class SmartBridgeRegistration {
     {
         return ($this->capabilites->view && $this->capabilities->submit);
     }
+
+    public function submitted()
+    {
+        return false;
+    }
 }

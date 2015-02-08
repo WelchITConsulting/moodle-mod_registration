@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 Welch IT Consulting
  *
@@ -21,3 +20,26 @@
  * Created  : 08 Feb 2015
  */
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->libdir . '/formslib.php');
+
+class registration_interest_form extends moodleform
+{
+    public function definition()
+    {
+        $mform =& $this->_form;
+
+        $mform->addElement('yesno', '', get_string('', 'registration'));
+        $mform->setType('', PARAM_BOOL);
+        $mform->addRule('', get_string('', 'registration'), 'required');
+
+        $mform->addElement('textarea', '', get_string('', 'registration'));
+        $mform->setType('', PARAM_RAW);
+
+        $mform->addElement('hidden', 'id', 0);
+        $mform->setType('id', PARAM_INT);
+
+        $this->add_action_buttons();
+    }
+}
