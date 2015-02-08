@@ -40,6 +40,6 @@ class registration_interest_form extends moodleform
         $mform->addElement('hidden', 'id', 0);
         $mform->setType('id', PARAM_INT);
 
-        $mform->addElement('submit', 'submitbutton', get_text('submitbutton', 'registration'));
+        $mform->addElement('submit', 'submitbutton', get_string('submitbutton', 'registration'));
     }
 }
