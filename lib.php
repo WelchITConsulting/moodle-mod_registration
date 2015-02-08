@@ -20,14 +20,11 @@
  * Created  : 24 Jan 2015
  */
 
-require_once($CFG->dirroot . '/mod/registration/registration.class.php');
+require_once($CFG->dirroot . '/mod/registration/locallib.php');
 
 function registration_add_instance($registration)
 {
-    global $COURSE, $DB;
-
-    $cm = new Object();
-    $registration = new SmartBridgeRegistration($COURSE, $cm, 0, $registration);
+    global $DB;
 
     $registration->timemodified = time();
     $registration->timecreated  = $registration->timemodified;
@@ -37,23 +34,20 @@ function registration_add_instance($registration)
     }
 
     // Create the events in the calendar
-    $registration->create_events();
+    registration_create_events($registration);
 
     return $registration->id;
 }
 
 function registration_update_instance($registration)
 {
-    global $COURSE, $DB;
-
-    $cm = new Object();
-    $registration = new SmartBridgeRegistration($COURSE, $cm, 0, $registration);
+    global $DB;
 
     $registration->timemodified = time();
     $registration->id = $registration->instance;
 
     // Create the events in the calendar
-    $registration->create_events();
+    registration_create_events($registration);
 
     return $DB->update_record('registration', $registration);
 }

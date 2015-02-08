@@ -53,3 +53,78 @@ function registration_get_context($cmid)
     }
     return $sbcontext;
 }
+
+function registration_create_events($registration)
+{
+    global $DB;
+
+    // Rmove any previously created event
+    if ($events = $DB->get_records('event', array('modulename' => 'registration', 'instance' => $registration->id))) {
+        foreach($events as $event) {
+            $event = calendar_event::load($event);
+            $event->delete();
+        }
+    }
+
+    // Add the event
+    $event = new stdClass();
+    $event->description     = $registration->intro;
+    $event->format          = $registration->introformat;
+    $event->courseid        = $registration->course;
+    $event->groupid         = 0;
+    $event->userid          = 0;
+    $event->modulename      = 'registration';
+    $event->instance        = $registration->id;
+    $event->eventtype       = 'open';
+    $event->timestart       = $registration->starttime;
+    $event->visible         = instance_is_visible('registration', $registration);
+    $event->timeduration    = ($registration->endtime - $registration->starttime);
+
+    if ($event <= $$registration->max_event_length) {
+        // Create a singke event for the whole time
+        $event->name = $registration->name;
+        calendar_event::create($event);
+    } else {
+        // Create separate events for the start and end of the period
+        $event->timeduration = 0;
+        $event->name = $registration->name . ' (' . get_string('eventopens', 'registration') . ')';
+        calendar_event::create($event);
+        unset($event->id);
+        $event->name = $registration->name . ' (' . get_string('eventcloses', 'registration') . ')';
+        $event->eventtype = 'close';
+        calendar_event::create($event);
+    }
+
+    // If set create registration period in the calendar
+    if (($registration->closedate - $registration->opendate > 0) && ($registration->closedate <= $registration->starttime)) {
+        $event = new stdClass();
+        $event->format          = $registration->introformat;
+        $event->courseid        = $registration->course;
+        $event->courseid        = $registration->course;
+        $event->groupid         = 0;
+        $event->userid          = 0;
+        $event->modulename      = 'registration';
+        $event->instance        = $registration->id;
+        $event->eventtype       = 'open';
+        $event->timestart       = $registration->opendate;
+        $event->visible         = instance_is_visible('registration', $registration);
+        $event->timeduration    = ($registration->closedate - $registration->opendate);
+        calendar_event::create($event);
+
+        if ($event <= $$registration->max_event_length) {
+            // Create a singke event for the whole time
+            $event->name = get_string('registrationopen', 'registration') . ' ' . $registration->name;
+            calendar_event::create($event);
+        } else {
+            // Create separate events for the start and end of the period
+            $event->timeduration = 0;
+            $event->name = get_string('registrationopens', 'registration') . ' ' . $registration->name;
+            calendar_event::create($event);
+            unset($event->id);
+            $event->name = get_string('registrationcloses', 'registration') . ' ' . $registration->name;
+            $event->timestart = $registration->closedate;
+            $event->eventtype = 'close';
+            calendar_event::create($event);
+        }
+    }
+}
