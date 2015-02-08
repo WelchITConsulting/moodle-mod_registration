@@ -69,22 +69,36 @@ $registration = new SmartBridgeRegistration($course, $cm, 0, $registration);
 
 $PAGE->set_title(format_string($registration->name));
 $PAGE->set_heading(format_string($course->fullname));
-echo $OUTPUT->header()
-   . $OUTPUT->heading(format_text($registration->name));
-
-if ($registration->intro) {
-    echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
-}
-echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
 
 /*if ($registration->capabilities->manage) {
-    echo '<p>Display the admin console</p>';
+    echo $OUTPUT->header()
+       . $OUTPUT->heading(format_text($registration->name));
+
+    if ($registration->intro) {
+        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+    }
+    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
+       . '<p>Display the admin console</p>';
 
 } else*/if ($registration->is_registration_closed()) {
-    echo html_writer::div(get_string('registrationclosed', 'registration'), 'message');
+    echo $OUTPUT->header()
+       . $OUTPUT->heading(format_text($registration->name));
+
+    if ($registration->intro) {
+        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+    }
+    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
+       . html_writer::div(get_string('registrationclosed', 'registration'), 'message');
 
 } elseif ($registration->is_active()) {
-    echo html_writer::div(get_string('eventnotactive', 'registration'), 'message');
+    echo $OUTPUT->header()
+       . $OUTPUT->heading(format_text($registration->name));
+
+    if ($registration->intro) {
+        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+    }
+    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
+       . html_writer::div(get_string('eventnotactive', 'registration'), 'message');
 
 } elseif (!$registration->submitted()) {
 
@@ -107,15 +121,30 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
         $interest->timemodified = $interest->timecreated;
 
         $DB->insert_record('registration_submissions', $interest);
-        redirect($CFG->wwwroot . '/mod/register/view.php?id=' . $id);
+        redirect($CFG->wwwroot . '/mod/registration/view.php?id=' . $id);
 
     } else {
+        echo $OUTPUT->header()
+           . $OUTPUT->heading(format_text($registration->name));
+
+        if ($registration->intro) {
+            echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+        }
+        echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
+
         $mform->set_data($interest);
         $mform->display();
     }
 
 } else {
-    echo html_writer::div(get_string('submitted', 'registration'), 'message');
+    echo $OUTPUT->header()
+       . $OUTPUT->heading(format_text($registration->name));
+
+    if ($registration->intro) {
+        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+    }
+    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
+       . html_writer::div(get_string('submitted', 'registration'), 'message');
 }
 
 
