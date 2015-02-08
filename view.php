@@ -86,6 +86,26 @@ if ($registration->capabilities->manage) {
 } elseif ($registration->is_active()) {
     echo html_writer::div(get_string('eventnotactive', 'registration'), 'message');
 
+} elseif (!$registration->submitted()) {
+
+    // Display the form
+    require_once($CFG->dirroot . '/mod/registration/interest_form.php');
+    $mform = new registration_interest_form();
+    $interest = new stdClass();
+    $interest->id = $id;
+    $interest->userid = $userid;
+
+    if ($mform->is_cancelled()) {
+        redirect($CFG->wwwroot . '/mod/register/view.php?id=' . $id);
+
+    } elseif ($data = $mform->get_data()) {
+        $DB->insert_record('registration_submissions', $interest);
+        redirect($CFG->wwwroot . '/mod/register/view.php?id=' . $id);
+
+    } else {
+        $mform->set_data($interest);
+        $mform->display();
+    }
 }
 
 

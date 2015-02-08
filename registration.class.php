@@ -61,7 +61,7 @@ class SmartBridgeRegistration {
 
     public function is_active()
     {
-        // Check if the event has passed
+        return ($this->endtime < time());
     }
 
     public function is_registration_open()
