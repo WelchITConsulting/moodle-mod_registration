@@ -32,7 +32,7 @@ class registration_interest_form extends moodleform
 
         $mform->addElement('checkbox', 'yesnofield', get_string('yesnofield', 'registration'));
         $mform->setType('yesnofield', PARAM_BOOL);
-        $mform->addRule('yesnofield', get_string('', 'registration'), 'required');
+        $mform->addRule('yesnofield', null, 'required', null, 'client');
 
         $mform->addElement('textarea', 'notes', get_string('notes', 'registration'));
         $mform->setType('notes', PARAM_RAW);
