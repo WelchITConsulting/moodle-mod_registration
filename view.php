@@ -92,6 +92,7 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
     require_once($CFG->dirroot . '/mod/registration/interest_form.php');
     $mform = new registration_interest_form();
     $interest = new stdClass();
+    $interest->id = $id;
     $interest->registration = $registration->id;
     $interest->userid = $USER->id;
     $interest->status = 1;
@@ -100,6 +101,7 @@ echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
         redirect($CFG->wwwroot . '/mod/register/view.php?id=' . $id);
 
     } elseif ($data = $mform->get_data()) {
+        unset($interest->id);
         $interest->notes = $data->notes;
         $interest->timecreated = time();
         $interest->timemodified = $interest->timecreated;

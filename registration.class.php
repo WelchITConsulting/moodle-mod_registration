@@ -82,8 +82,7 @@ class SmartBridgeRegistration {
     public function submitted()
     {
         global $DB;
-
-        
-        return false;
+        $submissions = (int)$DB->count_records_sql('SELECT COUNT(*) FROM {registration} WHERE registration=?', array($this->id));
+        return ($submissions > 0);
     }
 }
