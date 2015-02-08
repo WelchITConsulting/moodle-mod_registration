@@ -65,7 +65,7 @@ function registration_delete_instance($id)
     if (!$DB->delete_records('registration', array('id' => $regisration->id))) {
         return false;
     }
-    if (!$events = $DB->get_records('event', array('module_name' => 'registration', 'instance' => $registration->id))) {
+    if ($events = $DB->get_records('event', array('modulename' => 'registration', 'instance' => $registration->id))) {
         foreach($events as $event) {
             $event = calendar_event::load($event);
             $event->delete();
