@@ -96,7 +96,7 @@ class SmartBridgeRegistration {
 
         // Add the event
         $event = new stdClass();
-        $event->description     = format_module_intro('registration', $this, $cmid);
+        $event->description     = format_module_intro('registration', $this, $this->cm);
         $event->courseid        = $this->course;
         $event->groupid         = 0;
         $event->userid          = 0;
