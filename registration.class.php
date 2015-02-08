@@ -81,6 +81,9 @@ class SmartBridgeRegistration {
 
     public function submitted()
     {
+        global $DB;
+
+        
         return false;
     }
 }

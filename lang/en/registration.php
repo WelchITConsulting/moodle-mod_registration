@@ -21,7 +21,7 @@
  */
 
 $string['acceptemail']                  = 'Accepted email body';
-$string['acceptemail_default']          = 'Congratulations, you have been awarded a place at the ##NAME## on ##DATE## at ##TIME##. Please arraive at the ##LOCATION## in plenty of time to allow us to get started on time.';
+$string['acceptemail_default']          = 'Congratulations, you have been awarded a place at the ###NAME### on ###DATE### at ###TIME###. Please arraive at the ###LOCATION### in plenty of time to allow us to get started on time.';
 $string['acceptemail_help']             = '<p>This provides the main body of the email sent to all suuccesful applicants.</p>'
                                         . '<p>You can add the following codes into the above field which will be replaced with the relevant event data:</p>'
                                         . '<table><thead><tr><th>Code</th><th>Replaced with:</th></tr></thead><tbody>'
@@ -48,6 +48,7 @@ $string['modulename']                   = 'Event registration';
 $string['modulename_help']              = 'The registration module allows you to enter an event with the ability for course members to register an interest in attending.';
 $string['modulenameplural']             = 'Event registrations';
 $string['name']                         = 'Event name';
+$string['notes']                        = 'Other notes';
 $string['numberofplaces']               = 'Available places';
 $string['numberofplaces_help']          = 'This is used to define how many places are available at this event.';
 $string['opendate']                     = 'Available from';
@@ -66,11 +67,10 @@ $string['rejectsubject']                = 'Rejected email subject';
 $string['rejectsubject_default']        = 'Sorry, you have not been successful';
 $string['rejectsubject_help']           = 'This is the subject line for the email sent to those who have not been allocated a space at the event.';
 $string['starttime']                    = 'Event start';
+$string['submitbutton']                 = 'Register for event';
+$string['yesnofield']                   = 'I would like to attend';
 
 
-$string['notes']         = 'Other notes';
-$string['yesnofield']         = 'I would like to attend';
-//$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';
