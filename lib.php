@@ -22,6 +22,8 @@
 
 function registration_add_instance($registration)
 {
+    global $DB;
+
     $registration->timemodified = time();
     $registration->timecreated  = $registration->timemodified;
 
@@ -33,7 +35,10 @@ function registration_add_instance($registration)
 
 function registration_update_instance($registration)
 {
+    global $DB;
+
     $registration->timemodified = time();
+    $registration->id = $registration->instance;
 
     return $DB->update_record('registration', $registration);
 }
@@ -55,4 +60,28 @@ function registration_delete_instance($id)
         return false;
     }
     return true;
+}
+
+function registration_supports($feature)
+{
+    switch($feature) {
+        case FEATURE_BACKUP_MOODLE2:
+            return false;
+        case FEATURE_COMPLETION_HAS_RULES:
+            return false;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return false;
+        case FEATURE_GRADE_HAS_GRADE:
+            return false;
+        case FEATURE_GROUPINGS:
+            return false;
+        case FEATURE_GROUPS:
+            return false;
+        case FEATURE_GROUPMEMBERSONLY:
+            return false;
+        case FEATURE_SHOW_DESCRIPTION:
+            return false;
+        default:
+            return null;
+    }
 }

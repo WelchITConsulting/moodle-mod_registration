@@ -20,29 +20,48 @@
  * Created  : 24 Jan 2015
  */
 
-$string['closedate']                    = 'Close date';
+$string['acceptemail']                  = 'Accepted email body';
+$string['acceptemail_help']             = '<p>This provides the main body of the email sent to all suuccesful applicants.</p>'
+                                        . '<p>You can add the following codes into the above field which will be replaced with the relevant event data:</p>'
+                                        . '<table><thead><tr><th>Code</th><th>Replaced with:</th></tr></thead><tbody>'
+                                        . '<tr><th>###NAME###</th><td>The events name</td></tr>'
+                                        . '<tr><th>>###DATE###</th><td>The events start date</td></tr>'
+                                        . '<tr><th>###TIME###</th><td>The events start time</td></tr>'
+                                        . '<tr><th>###LOCATION###</th><td>The events location</td></tr></tbody></table>';
+$string['acceptsubject']                = 'Accepted email subject';
+$string['acceptsubject_help']           = 'This is the subject line for the email sent to all the applicants who have been offered a place at your event.';
+$string['closedate']                    = 'Available until';
+$string['closedate_help']               = 'The date and time when the registration period closes.';
+$string['description']                  = 'Event description';
+$string['description_help']             = 'Please provide as much information as possible about your event in the event description field as we use this details when creating the calendar event.';
+$string['emailconfirmations']           = 'Email confirmation settings';
+$string['emailacceptsubject']           = 'Congratulations, you have been accepted on to the workshop';
+$string['emailacceptbody']              = 'Congratulations, you have been awarded a place at the ##NAME## on ##DATE## at ##TIME##. Please arraive at the ##LOCATION## in plenty of time to allow us to get started on time.';
+$string['emailrejectsubject']           = 'Sorry, you have not been successful';
+$string['emailrejectbody']              = 'Unfortunately, as places for this training are limited we have been unable to allocate a place for you on this event.';
 $string['endtime']                      = 'Event end';
 $string['eventtypes']                   = 'Event type';
 $string['location']                     = 'Event location';
+$string['location_help']                = 'The location where your event is being held.';
 $string['modulename']                   = 'Event registration';
 $string['modulename_help']              = 'The registration module allows you to enter an event with the ability for course members to register an interest in attending.';
 $string['modulenameplural']             = 'Event registrations';
 $string['name']                         = 'Event name';
 $string['numberofplaces']               = 'Available places';
-$string['opendate']                     = 'Open date';
+$string['numberofplaces_help']          = 'This is used to define how many places are available at this event.';
+$string['opendate']                     = 'Available from';
+$string['opendate_help']                = 'The date and time when the registration period opens.';
 $string['period']                       = 'Registration period';
 $string['pluginadministration']         = 'Registration administration';
 $string['pluginname']                   = 'Registration';
 $string['registration_open']            = 'Registration available:';
+$string['rejectemail']                  = 'Rejected email body';
+$string['rejectemail_help']             = 'This is the body of the email sent to those who have not been allocated a space at the event.';
+$string['rejectsubject']                = 'Rejected email subject';
+$string['rejectsubject_help']           = 'This is the subject line for the email sent to those who have not been allocated a space at the event.';
 $string['starttime']                    = 'Event start';
 
 
-//$string['']         = '';
-//$string['']         = '';
-//$string['']         = '';
-//$string['']         = '';
-//$string['']         = '';
-//$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';

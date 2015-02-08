@@ -69,7 +69,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/registration:downloadresponse' => array(
+    'mod/registration:downloadresponses' => array(
         'captype'       => 'read',
         'contextlevel'  => CONTEXT_MODULE,
         'legacy'        => array(

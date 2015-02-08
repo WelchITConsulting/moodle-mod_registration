@@ -30,52 +30,60 @@ function xmldb_registration_upgrade($oldversion = 0)
         // Process the database schema updates for the registration table
         $table = new xmldb_table('registration');
 
-        // Add the events end time field
-        $field = new xmldb_field('endtime');
-        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, 'eventdate');
-        $dbman->add_field($table, $field);
-
         // Rename the eventdate field
-        $dbman->rename_field($table, 'eventdate', 'starttime');
+        $field = new xmldb_field('eventdate', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, 'location');
+        $dbman->rename_field($table, $field, 'starttime');
 
         // Add the events end time field
-        $field = new xmldb_field('acceptsubject');
-        $field->set_attributes(XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'closedate');
+        $field = new xmldb_field('acceptsubject', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'closedate');
         $dbman->add_field($table, $field);
 
         // Add the events end time field
-        $field = new xmldb_field('acceptemail');
-        $field->set_attributes(XMLDB_TYPE_TEXT, 'small', null, XMLDB_NOTNULL, null, null, 'acceptsubject');
+        $field = new xmldb_field('acceptemail', XMLDB_TYPE_TEXT, 'small', null, XMLDB_NOTNULL, null, null, 'acceptsubject');
         $dbman->add_field($table, $field);
 
         // Add the events end time field
-        $field = new xmldb_field('rejectsubject');
-        $field->set_attributes(XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'acceptemail');
+        $field = new xmldb_field('rejectsubject', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'acceptemail');
         $dbman->add_field($table, $field);
 
         // Add the events end time field
-        $field = new xmldb_field('rejectemail');
-        $field->set_attributes(XMLDB_TYPE_TEXT, 'small', null, XMLDB_NOTNULL, null, null, 'rejectsubject');
+        $field = new xmldb_field('rejectemail', XMLDB_TYPE_TEXT, 'small', null, XMLDB_NOTNULL, null, null, 'rejectsubject');
         $dbman->add_field($table, $field);
 
         // Process the database schema updates for the registration_submissions table
         $table = new xmldb_table('registration_submissions');
 
         // Add the notes fields
-        $field = new xmldb_field('notes');
-        $field->set_attributes(XMLDB_TYPE_TEXT, 'small', null, null, null, null, 'userid');
+        $field = new xmldb_field('notes', XMLDB_TYPE_TEXT, 'small', null, null, null, null, 'userid');
         $dbman->add_field($table, $field);
 
         // Add the status fields
-        $field = new xmldb_field('status');
-        $field->set_attributes(XMLDB_TYPE_CHAR, 1, null, null, null, null, 'notes');
+        $field = new xmldb_field('status', XMLDB_TYPE_CHAR, '1', null, null, null, null, 'notes');
         $dbman->add_field($table, $field);
 
         // Remove the mailed field
-        $dbman->drop_field($table, 'mailed');
+        $field = new xmldb_field('mailed', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, null, 'status');
+        $dbman->drop_field($table, $field);
 
         // Registration savepoint reached
         upgrade_mod_savepoint(true, 2015020600, 'registration');
+    }
+
+    if ($oldversion < 2015020800) {
+
+        // Process the database schema updates for the registration table
+        $table = new xmldb_table('registration');
+
+        // Remove the event type field
+        $field = new xmldb_field('eventtype', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, 'introformat');
+        $dbman->drop_field($table, $field);
+
+        // Remove the event type table
+        $table = new xmldb_table('registration_event_types');
+        $dbman->drop_table($table);
+
+        // Registration savepoint reached
+        upgrade_mod_savepoint(true, 2015020800, 'registration');
     }
 
     return true;

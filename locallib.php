@@ -25,13 +25,6 @@ require_once($CFG->libdir . '/eventslib.php');
 require_once($CFG->dirroot . '/calendar/lib.php');
 
 
-function registration_get_event_types()
-{
-    global $DB;
-
-    return $DB->get_records_sql('SELECT * FROM {registration_event_types} ORDER BY name');
-}
-
 function registration_load_capailities($cmid)
 {
     static $sbcb;

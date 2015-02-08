@@ -37,28 +37,53 @@ class mod_registration_mod_form extends moodleform_mod
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
 
-        $this->add_intro_editor(false, get_string('description'));
+        $this->add_intro_editor(true, get_string('description', 'registration'));
+        $mform->addHelpButton('introeditor', 'description', 'registration');
 
         $mform->addElement('date_time_selector', 'starttime', get_string('starttime', 'registration'));
+        $mform->addRule('starttime', null, 'required', null, 'client');
         $mform->addElement('date_time_selector', 'endtime', get_string('endtime', 'registration'));
-
-        // Add event type
-        $mform->addElement('select', 'eventtype', get_string('eventtypes', 'registration'), registration_get_event_types());
-        $mform->setType('eventtype', PARAM_INT);
+        $mform->addRule('endtime', null, 'required', null, 'client');
 
         // Add number of places
         $mform->addElement('text', 'places', get_string('numberofplaces', 'registration'));
         $mform->setType('places', PARAM_INT);
+        $mform->addHelpButton('places', 'numberofplaces', 'registration');
 
         // Add event location
         $mform->addElement('text', 'location', get_string('location', 'registration'), array('size' => '64'));
         $mform->setType('location', PARAM_TEXT);
+        $mform->addRule('location', null, 'required', null, 'client');
+        $mform->addHelpButton('location', 'location', 'registration');
 
         $mform->addElement('header', 'timinghdr', get_string('period', 'registration'));
 
         $mform->addElement('date_time_selector', 'opendate', get_string('opendate', 'registration'));
+        $mform->addHelpButton('opendate', 'opendate', 'registration');
         $mform->addElement('date_time_selector', 'closedate', get_string('closedate', 'registration'));
+        $mform->addHelpButton('closedate', 'closedate', 'registration');
 
+        $mform->addElement('header', 'emails', get_string('emailconfirmations', 'registration'));
+
+        $mform->addElement('text', 'acceptsubject', get_string('acceptsubject', 'registration'), array('size' => '64'));
+        $mform->setType('acceptsubject', PARAM_TEXT);
+        $mform->addRule('acceptsubject', null, 'required', null, 'client');
+        $mform->addHelpButton('acceptsubject', 'acceptsubject', 'registration');
+
+        $mform->addElement('textarea', 'acceptemail', get_string('acceptemail', 'registration'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '50'));
+        $mform->setType('acceptemail', PARAM_RAW);
+        $mform->addRule('acceptemail', null, 'required', null, 'client');
+        $mform->addHelpButton('acceptemail', 'acceptemail', 'registration');
+
+        $mform->addElement('text', 'rejectsubject', get_string('rejectsubject', 'registration'), array('size' => '64'));
+        $mform->setType('rejectsubject', PARAM_TEXT);
+        $mform->addRule('rejectsubject', null, 'required', null, 'client');
+        $mform->addHelpButton('rejectsubject', 'rejectsubject', 'registration');
+
+        $mform->addElement('textarea', 'rejectemail', get_string('rejectemail', 'registration'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '50'));
+        $mform->setType('rejectemail', PARAM_RAW);
+        $mform->addRule('rejectemail', null, 'required', null, 'client');
+        $mform->addHelpButton('rejectemail', 'rejectemail', 'registration');
 
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();

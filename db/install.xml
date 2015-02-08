@@ -20,7 +20,7 @@ Author   : John Welch <jwelch@welchitconsulting.co.uk>
 Created  : 24 Jan 2015
 -->
 
-<XMLDB  PATH="mod/registration/db" VERSION="2015020600" COMMENT=""
+<XMLDB  PATH="mod/registration/db" VERSION="2015020800" COMMENT=""
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
     <TABLES>
@@ -31,7 +31,6 @@ Created  : 24 Jan 2015
                 <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="intro" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="introformat" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-                <FIELD NAME="eventtype" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false"/>
                 <FIELD NAME="places" TYPE="int" LENGTH="5" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
                 <FIELD NAME="location" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
                 <FIELD NAME="starttime" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
@@ -62,15 +61,6 @@ Created  : 24 Jan 2015
             <KEYS>
                 <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
                 <KEY NAME="registration" TYPE="foreign" FIELDS="registration" REFTABLE="registration" REFFIELDS="id"/>
-            </KEYS>
-        </TABLE>
-        <TABLE NAME="registration_event_types" COMMENT="Event type codes">
-            <FIELDS>
-                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
-                <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
-            </FIELDS>
-            <KEYS>
-                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
             </KEYS>
         </TABLE>
     </TABLES>

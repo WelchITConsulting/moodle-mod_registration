@@ -22,33 +22,53 @@
 
 require_once('../../config.php');
 require_once($CFG->dirroot . '/mod/registration/lib.php');
+require_once($CFG->dirroot . '/mod/registration/registration.class.php');
 
 if (!isset($SESSION->registration)) {
     $SESSION->registration = new stdClass();
 }
 $SESSION->registration->current_tab = 'view';
 
-$id = required_param('id', null, PARAM_INT);
+$id = optional_param('id', 0, PARAM_INT);
+$a = optional_param('a', 0, PARAM_INT);
 
-if (!($cm = get_coursemodule_from_id('registration', $id))) {
-    print_error('invalidcoursemodule');
+if ($id) {
+    if (!($cm = get_coursemodule_from_id('registration', $id))) {
+        print_error('invalidcoursemodule');
+    }
+    if (!($course = $DB->get_record('course', array('id' => $cm->course)))) {
+        print_error('coursemisconf');
+    }
+    if (!($registration = $DB->get_record('registration', array('id' => $cm->instance)))) {
+        print_error('invalidcoursemodule');
+    }
+} else {
+    if (!($registration = $DB->get_record('registration', array('id' => $a)))) {
+        print_error('invalidcoursemodule');
+    }
+    if (!($course = $DB->get_record('course', array('id' => $registration->course)))) {
+        print_error('coursemisconf');
+    }
+    if (!($cm = get_coursemodule_from_instance('registration', $registration->id, $course->id))) {
+        print_error('invalidcoursemodule');
+    }
 }
-if (!($course = $DB->get_record('course', array('id' => $cm->course)))) {
-    print_error('coursemisconf');
-}
-if (!($registration = $DB->get_record('registration', array('id' => $cm->instance)))) {
-    print_error('invalidcoursemodule');
-}
-
 require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
 
 $url = new moodle_url($CFG->wwwroot . '/mod/registration/view.php');
-$url->param('id', $id);
+if (!empty($id)) {
+    $url->param('id', $id);
+} else {
+    $url->param('a', $a);
+}
 $PAGE->set_url($url);
-$PAGE->set_context($url);
+$PAGE->set_context($context);
+
+$registration = new SmartBridgeRegistration($course, $cm, 0, $registration);
+
 $PAGE->set_title(format_string($registration->name));
-$page->set_heading(format_string($course->fullname));
+$PAGE->set_heading(format_string($course->fullname));
 echo $OUTPUT->header()
    . $OUTPUT->heading(format_text($registration->name));
 
@@ -57,3 +77,5 @@ if ($registration->intro) {
 }
 echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
 
+echo $OUTPUT->box_end()
+   . $OUTPUT->footer();
