@@ -146,10 +146,5 @@ $PAGE->set_heading(format_string($course->fullname));
     echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
        . html_writer::div(get_string('submitted', 'registration'), 'message');
 }
-
-
-
-
-
 echo $OUTPUT->box_end()
    . $OUTPUT->footer();
