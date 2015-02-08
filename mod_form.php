@@ -69,21 +69,25 @@ class mod_registration_mod_form extends moodleform_mod
         $mform->setType('acceptsubject', PARAM_TEXT);
         $mform->addRule('acceptsubject', null, 'required', null, 'client');
         $mform->addHelpButton('acceptsubject', 'acceptsubject', 'registration');
+        $mform->setDefault('acceptsubject', get_string('acceptsubject_default', 'registration'));
 
         $mform->addElement('textarea', 'acceptemail', get_string('acceptemail', 'registration'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '50'));
         $mform->setType('acceptemail', PARAM_RAW);
         $mform->addRule('acceptemail', null, 'required', null, 'client');
         $mform->addHelpButton('acceptemail', 'acceptemail', 'registration');
+        $mform->setDefault('acceptemail', get_string('acceptemail_default', 'registration'));
 
         $mform->addElement('text', 'rejectsubject', get_string('rejectsubject', 'registration'), array('size' => '64'));
         $mform->setType('rejectsubject', PARAM_TEXT);
         $mform->addRule('rejectsubject', null, 'required', null, 'client');
         $mform->addHelpButton('rejectsubject', 'rejectsubject', 'registration');
+        $mform->setDefault('rejectsubject', get_string('rejectsubject_default', 'registration'));
 
         $mform->addElement('textarea', 'rejectemail', get_string('rejectemail', 'registration'), array('wrap' => 'virtual', 'rows' => '10', 'cols' => '50'));
         $mform->setType('rejectemail', PARAM_RAW);
         $mform->addRule('rejectemail', null, 'required', null, 'client');
         $mform->addHelpButton('rejectemail', 'rejectemail', 'registration');
+        $mform->setDefault('rejectemail', get_string('rejectemail_default', 'registration'));
 
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();
