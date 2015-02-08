@@ -77,9 +77,17 @@ if ($registration->intro) {
 }
 echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
 
-if ($registration->is_registration_closed()) {
+if ($registration->capabilities->manage) {
+    echo '<p>Display the admin console</p>';
+
+} elseif ($registration->is_registration_closed()) {
     echo html_writer::div(get_string('registrationclosed', 'registration'), 'message');
+
+} elseif ($registration->is_active()) {
+    echo html_writer::div(get_string('eventnotactive', 'registration'), 'message');
+
 }
+
 
 
 

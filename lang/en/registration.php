@@ -39,6 +39,7 @@ $string['description_help']             = 'Please provide as much information as
 $string['emailconfirmations']           = 'Email confirmation settings';
 $string['endtime']                      = 'Event end';
 $string['eventcloses']                  = 'Event end';
+$string['eventnotactive']               = 'Event closed';
 $string['eventopens']                   = 'Event start';
 $string['eventtypes']                   = 'Event type';
 $string['location']                     = 'Event location';
@@ -67,7 +68,6 @@ $string['rejectsubject_help']           = 'This is the subject line for the emai
 $string['starttime']                    = 'Event start';
 
 
-//$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';
 //$string['']         = '';
