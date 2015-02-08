@@ -82,7 +82,7 @@ function registration_create_events($registration)
     $event->visible         = instance_is_visible('registration', $registration);
     $event->timeduration    = ($registration->endtime - $registration->starttime);
 
-    if ($event <= REGISTRATION_MAX_EVENT_LENGTH) {
+    if ($event->timeduration <= REGISTRATION_MAX_EVENT_LENGTH) {
         // Create a singke event for the whole time
         $event->name = $registration->name;
         calendar_event::create($event);
@@ -112,7 +112,7 @@ function registration_create_events($registration)
         $event->visible         = instance_is_visible('registration', $registration);
         $event->timeduration    = ($registration->closedate - $registration->opendate);
 
-        if ($event <= REGISTRATION_MAX_EVENT_LENGTH) {
+        if ($event->timeduration <= REGISTRATION_MAX_EVENT_LENGTH) {
             // Create a singke event for the whole time
             $event->name = get_string('registrationopen', 'registration') . ' ' . $registration->name;
             calendar_event::create($event);
