@@ -66,12 +66,10 @@ class SmartBridgeRegistration {
 
     public function is_registration_open()
     {
-        return ($this->opendate > 0) ? ($this->opendate < time()) : true;
-    }
-
-    public function is_registration_closed()
-    {
-        return ($this->closedate > 0) ? ($this->closedate < time()) : false;
+        if (($this->opendate >= time()) && ($this->closedate <= time())) {
+            return true;
+        }
+        return false;
     }
 
     public function user_is_eligible($userid)
