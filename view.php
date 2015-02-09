@@ -80,7 +80,7 @@ $PAGE->set_heading(format_string($course->fullname));
     echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
        . '<p>Display the admin console</p>';
 
-} else*/if ($registration->is_registration_closed()) {
+} else*/if (!$registration->is_registration_open()) {
     echo $OUTPUT->header()
        . $OUTPUT->heading(format_text($registration->name));
 
