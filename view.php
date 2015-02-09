@@ -80,7 +80,19 @@ $PAGE->set_heading(format_string($course->fullname));
     echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
        . '<p>Display the admin console</p>';
 
-} else*/if (!$registration->is_registration_open()) {
+} else*/
+
+if (!$registration->opendate < time()) {
+    echo $OUTPUT->header()
+       . $OUTPUT->heading(format_text($registration->name));
+
+    if ($registration->intro) {
+        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+    }
+    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
+       . html_writer::div(get_string('registrationnotopen', 'registration'), 'message');
+
+} elseif (!$registration->closedate > time()) {
     echo $OUTPUT->header()
        . $OUTPUT->heading(format_text($registration->name));
 
