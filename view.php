@@ -84,8 +84,7 @@ $PAGE->set_heading(format_string($course->fullname));
 
 if ($registration->opendate > time()) {
     echo $OUTPUT->header()
-       . $OUTPUT->heading(format_text($registration->name))
-       . html_writer::div('opendate: ' . $registration->opendate . '<br>time: ' . time());
+       . $OUTPUT->heading(format_text($registration->name));
 
     if ($registration->intro) {
         echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
@@ -95,8 +94,7 @@ if ($registration->opendate > time()) {
 
 } elseif ($registration->closedate < time()) {
     echo $OUTPUT->header()
-       . $OUTPUT->heading(format_text($registration->name))
-       . html_writer::div('opendate: ' . $registration->opendate . '<br>time: ' . time());
+       . $OUTPUT->heading(format_text($registration->name));
 
     if ($registration->intro) {
         echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
