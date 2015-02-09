@@ -82,7 +82,7 @@ $PAGE->set_heading(format_string($course->fullname));
 
 } else*/
 
-if (!$registration->opendate < time()) {
+if ($registration->opendate < time()) {
     echo $OUTPUT->header()
        . $OUTPUT->heading(format_text($registration->name));
 
@@ -92,7 +92,7 @@ if (!$registration->opendate < time()) {
     echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
        . html_writer::div(get_string('registrationnotopen', 'registration'), 'message');
 
-} elseif (!$registration->closedate > time()) {
+} elseif ($registration->closedate > time()) {
     echo $OUTPUT->header()
        . $OUTPUT->heading(format_text($registration->name));
 
