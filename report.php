@@ -21,10 +21,11 @@
  */
 
 require_once('../../config.php');
-require_once($CFG->dirroot . '/mod/registration/locallib.php');
+require_once($CFG->dirroot . '/mod/registration/registration.class.php');
 
 $instance = optional_param('instance', false, PARAM_INT);
 $action   = optional_param('action', 'all', PARAM_ALPHA);
+$rid      = optional_param('rid', false, PARAM_INT);
 
 
 if ($instance === false) {
@@ -46,12 +47,17 @@ if (!$cm = get_coursemodule_from_instance('registration', $registration->id, $co
     print_error('invalidcoursemodule');
 }
 require_course_login($course, true, $cm);
+$registration = new SmartBridgeRegistration($course, $cm, 0, $registration);
 
 
+$context = context_module::instance($cm->id);
 
-
-
-
+// Check the user has the Capabilities required to access the report
+if (!has_capability('mod/registration:viewsingleresponses', $context) &&
+        !$registration->capabilites->view && $registration->can_view_response($rid)) {
+    print_error('nopermissions', 'moodle', $CFG->wwwroot . '/mod/registration/view.php?id=' . $cm-id);
+}
+$registration->canviewallgroups = has_capability('moodle/site:accessallgroups', $context);
 $url = new moodle_url($CFG->wwwroot . '/mod/registration/report.php');
 if ($instance) {
     $url->param('instance', $instance);
@@ -73,3 +79,5 @@ if (!isset($SESSION->registration)) {
     $SESSION->registration = new stdClass();
 }
 $SESSION->registration->current_tab = 'allreport';
+
+$sql = 'SELECT id, .';

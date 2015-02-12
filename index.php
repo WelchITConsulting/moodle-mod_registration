@@ -56,7 +56,7 @@ foreach($registrations as $registration) {
 }
 
 $headings = array(get_string('name'));
-$align = aray('left');
+$align = array('left');
 
 if ($showclosingheader) {
     array_push($headings, get_string('registationopens', 'registration'));

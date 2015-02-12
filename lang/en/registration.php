@@ -71,4 +71,5 @@ $string['rejectsubject_help']           = 'This is the subject line for the emai
 $string['starttime']                    = 'Event start';
 $string['submitbutton']                 = 'Register for event';
 $string['submitted']                    = 'Thankyou for your interest, you will be notified via SmartBridge if you have been allocated a place.';
+$string['viewallresponses']             = 'View all responses';
 $string['yesnofield']                   = 'Check this box if you would like to attend this event';
