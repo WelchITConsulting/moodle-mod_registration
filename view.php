@@ -70,19 +70,25 @@ $registration = new SmartBridgeRegistration($course, $cm, 0, $registration);
 $PAGE->set_title(format_string($registration->name));
 $PAGE->set_heading(format_string($course->fullname));
 
-/*if ($registration->capabilities->manage) {
+if ($registration->capabilities->manage) {
     echo $OUTPUT->header()
        . $OUTPUT->heading(format_text($registration->name));
 
     if ($registration->intro) {
         echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
     }
-    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
-       . '<p>Display the admin console</p>';
+    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
 
-} else*/
+    // Display link to the report
+    $responsesurl = new moodle_url($CFG->wwwroot . '/mod/registration/report.php',
+                                   array('instance' => $registration->id));
+    if (!empty($id)) {
+        $responsesurl->param('id', $id);
+    }
+    echo '<a href="' . $responsesurl->out() . '" class="viewalllink">'
+       . get_string('viewallresponses', 'registration') . '</a>';
 
-if ($registration->opendate > time()) {
+} elseif ($registration->opendate > time()) {
     echo $OUTPUT->header()
        . $OUTPUT->heading(format_text($registration->name));
 

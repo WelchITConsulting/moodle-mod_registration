@@ -42,6 +42,7 @@ $string['eventcloses']                  = 'Event end';
 $string['eventnotactive']               = 'Event closed';
 $string['eventopens']                   = 'Event start';
 $string['eventtypes']                   = 'Event type';
+$string['incorrectcourseid']            = 'Invalid course ID';
 $string['location']                     = 'Event location';
 $string['location_help']                = 'The location where your event is being held.';
 $string['modulename']                   = 'Event registration';
