@@ -97,7 +97,7 @@ $stregistrations = get_string('modulenameplural', 'registration');
 $PAGE->navbar->add($stregistrations);
 $PAGE->set_title($course->shortname . ': ' . $stregistrations);
 $PAGE->set_heading(format_string($course->fullname));
-echo $OUTPUT->header
+echo $OUTPUT->header()
    . html_writer::table($table)
    . $OUTPUT->footer();
 
