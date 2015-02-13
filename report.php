@@ -25,7 +25,6 @@ require_once($CFG->dirroot . '/mod/registration/registration.class.php');
 
 $instance = optional_param('instance', false, PARAM_INT);
 $action   = optional_param('action', 'all', PARAM_ALPHA);
-$rid      = optional_param('rid', false, PARAM_INT);
 
 
 if ($instance === false) {
@@ -54,10 +53,10 @@ $context = context_module::instance($cm->id);
 
 // Check the user has the Capabilities required to access the report
 if (!has_capability('mod/registration:viewsingleresponse', $context) &&
-        !$registration->capabilites->view && $registration->can_view_response($rid)) {
+        !$registration->capabilites->view) {
     print_error('nopermissions', 'moodle', $CFG->wwwroot . '/mod/registration/view.php?id=' . $cm-id);
 }
-$registration->canviewallgroups = has_capability('moodle/site:accessallgroups', $context);
+//$registration->canviewallgroups = has_capability('moodle/site:accessallgroups', $context);
 $url = new moodle_url($CFG->wwwroot . '/mod/registration/report.php');
 if ($instance) {
     $url->param('instance', $instance);
@@ -68,29 +67,97 @@ if ($action) {
     $url->param('action', 'all');
 }
 
-
-
-
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 
+$sql = 'SELECT r.id, r.registration, r.userid, r.notes, r.status, u.firstname, u.lastname '
+     . 'FROM {user} u, {registration_submissions} r '
+     . 'WHERE u.id = r.userid AND registration=? '
+     . 'ORDER BY u.lastname ASC, u.firstname ASC';
+
+if (!$respondants = $DB->get_records_sql($sql, array($registration->id))) {
+    $respondants = array();
+}
+
+$table = new html_table();
+$table->head = array('First name / Last name', 'notes', 'status');
+$table->align = array('left', 'left', 'left');
+
+foreach($respondants as $respondant) {
+    $data = array();
+    $data[] = $respondant->firstname . ' ' . $respondant->lastname;
+    $data[] = $respondant->notes;
+    $data[] = $respondant->status;
+    $table->data[] = data;
+}
+
+
+
+$stregistrations = get_string('modulenameplural', 'registration');
+$PAGE->navbar->add($stregistrations);
+$PAGE->set_title($course->shortname . ': ' . $stregistrations);
+$PAGE->set_heading(format_string($course->fullname));
+echo $OUTPUT->header
+   . html_writer::table(table)
+   . $OUTPUT->footer();
+
+
+
+
+
+
+//$sql = 'SELECT r.id, r.registration, r.userid, r.notes, r.status, u.firstname, u.lastname '
+//     . 'FROM {user} u '
+//     . 'LEFT JOIN {registration_submissions} r '
+//     . 'ON u.id = r.userid '
+//     . 'WHERE registration=? '
+//     . 'ORDER BY u.lastname ASC, u.firstname ASC';
+
+//switch ($action) {
+//
+//    // All submissions sorted by
+//    case 'all':
+//
+//        break;
+//
+//    case 'rall':
+//
+//        break;
+//
+
+//}
+
 // Tab setup
-if (!isset($SESSION->registration)) {
-    $SESSION->registration = new stdClass();
-}
-$SESSION->registration->current_tab = 'allreport';
+//if (!isset($SESSION->registration)) {
+//    $SESSION->registration = new stdClass();
+//}
+//$SESSION->registration->current_tab = 'allreport';
 
-$sql = 'SELECT id, registration, userid, status '
-     . 'FROM {registration_submissions} '
-     . 'WHERE registration=? '
-     . 'ORDER BY id';
-if (!$allpartisipants = $DB->get_records_sql($sql, array($registration->id))) {
-    $allpartisipants = array();
-}
-$SESSION->registration->numallpartisipants = count($allpartisipants);
-$SESSION->registration->numselectedresps = $SESSION->registration->numallpartisipants;
-$castsql = $DB->sql_cast_char2int('r.userid');
-
-
+//$sql = 'SELECT r.id, r.registration, r.userid, r.notes, r.status, u.firstname, u.lastname '
+//     . 'FROM {registration_submissions} r, {user} u '
+//     . 'WHERE r.userid = u.id AND registration=? '
+//     . 'ORDER BY id';
+//if (!$allpartisipants = $DB->get_records_sql($sql, array($registration->id))) {
+//    $allpartisipants = array();
+//}
+//$SESSION->registration->numallpartisipants = count($allpartisipants);
+//$SESSION->registration->numselectedresps = $SESSION->registration->numallpartisipants;
+//$castsql = $DB->sql_cast_char2int('r.userid');
 
 
+
+
+//SELECT u.id, c.id
+//FROM mdl_user u
+//INNER JOIN mdl_user_enrolments ue ON ue.userid = u.id
+//INNER JOIN mdl_enrol e ON e.id = ue.enrolid
+//INNER JOIN mdl_course c ON e.courseid = c.id
+//and
+//
+//SELECT u.id, c.id
+//FROM mdl_user u
+//INNER JOIN mdl_role_assignments ra ON ra.userid = u.id
+//INNER JOIN mdl_context ct ON ct.id = ra.contextid
+//INNER JOIN mdl_course c ON c.id = ct.instanceid
+//INNER JOIN mdl_role r ON r.id = ra.roleid
+//WHERE r.id = 5
