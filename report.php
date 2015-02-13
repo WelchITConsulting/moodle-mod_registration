@@ -22,6 +22,7 @@
 
 require_once('../../config.php');
 require_once($CFG->dirroot . '/mod/registration/registration.class.php');
+require_once($CFG->dirroot . '/mod/registration/locallib.php');
 
 $instance = optional_param('instance', false, PARAM_INT);
 $action   = optional_param('action', 'all', PARAM_ALPHA);
@@ -70,7 +71,7 @@ if ($action) {
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 
-$sql = 'SELECT u.id, u.firstname, u.lastname, r.name, r.shortname, '
+$sql = 'SELECT rs.id, u.firstname, u.lastname, r.name, r.shortname, '
      . 'rn.name AS name_reassigned, rs.notes, rs.status '
      . 'FROM {user} u INNER JOIN {role_assignments} ra ON ra.userid = u.id '
      . 'INNER JOIN {context} ct ON ct.id = ra.contextid '
@@ -81,22 +82,23 @@ $sql = 'SELECT u.id, u.firstname, u.lastname, r.name, r.shortname, '
      . 'WHERE rs.registration = ? '
      . 'ORDER BY rs.id ASC, r.shortname ASC, u.lastname ASC, u.firstname ASC';
 
-echo '<p>Registration->id: ' . $registration->id . '</p>';
 if (!$respondants = $DB->get_records_sql($sql, array($registration->id))) {
-    echo '<p style="color:red;">No respondants</p>';
     $respondants = array();
+}
+$processedresp = array();
+foreach ($respondants as $respondant) {
+    $processedresp[$respondant->id] = array($respondant->firstname . ' ' . $respondant->lastname,
+                                            (empty($respondant->name) ? $respondant->shortname : $respondant->name),
+                                            $respondant->notes,
+                                            registration_get_status($respondant->status));
 }
 
 $table = new html_table();
-$table->head = array('First name / Last name', 'notes', 'status');
-$table->align = array('left', 'left', 'left');
+$table->head = array('First name / Last name', 'Role', 'Notes', 'Status');
+$table->align = array('left', 'left', 'left', 'left');
 
-foreach($respondants as $respondant) {
-    $data = array();
-    $data[] = $respondant->firstname . ' ' . $respondant->lastname;
-    $data[] = $respondant->notes;
-    $data[] = $respondant->status;
-    $table->data[] = $data;
+foreach($processedresp as $key => $respondant) {
+    $table->data[] = $respondant;
 }
 
 
