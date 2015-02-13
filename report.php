@@ -86,7 +86,7 @@ if (!$respondants = $DB->get_records_sql($sql, array($registration->id))) {
     echo '<p style="color:red;">No respondants</p>';
     $respondants = array();
 }
-s
+
 $table = new html_table();
 $table->head = array('First name / Last name', 'notes', 'status');
 $table->align = array('left', 'left', 'left');
