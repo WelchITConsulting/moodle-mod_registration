@@ -88,7 +88,7 @@ if (!$respondants = $DB->get_records_sql($sql, array($registration->id))) {
 $processedresp = array();
 foreach ($respondants as $respondant) {
     $processedresp[$respondant->id] = array($respondant->firstname . ' ' . $respondant->lastname,
-                                            (empty($respondant->name) ? $respondant->shortname : $respondant->name),
+                                            (empty($respondant->name) ? $respondant->name_reassigned : $respondant->name),
                                             $respondant->notes,
                                             registration_get_status($respondant->status));
 }
