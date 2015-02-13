@@ -53,7 +53,7 @@ $registration = new SmartBridgeRegistration($course, $cm, 0, $registration);
 $context = context_module::instance($cm->id);
 
 // Check the user has the Capabilities required to access the report
-if (!has_capability('mod/registration:viewsingleresponses', $context) &&
+if (!has_capability('mod/registration:viewsingleresponse', $context) &&
         !$registration->capabilites->view && $registration->can_view_response($rid)) {
     print_error('nopermissions', 'moodle', $CFG->wwwroot . '/mod/registration/view.php?id=' . $cm-id);
 }
@@ -80,4 +80,17 @@ if (!isset($SESSION->registration)) {
 }
 $SESSION->registration->current_tab = 'allreport';
 
-$sql = 'SELECT id, .';
+$sql = 'SELECT id, registration, userid, status '
+     . 'FROM {registration_submissions} '
+     . 'WHERE registration=? '
+     . 'ORDER BY id';
+if (!$allpartisipants = $DB->get_records_sql($sql, array($registration->id))) {
+    $allpartisipants = array();
+}
+$SESSION->registration->numallpartisipants = count($allpartisipants);
+$SESSION->registration->numselectedresps = $SESSION->registration->numallpartisipants;
+$castsql = $DB->sql_cast_char2int('r.userid');
+
+
+
+

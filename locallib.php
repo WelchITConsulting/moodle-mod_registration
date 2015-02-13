@@ -27,7 +27,7 @@ require_once($CFG->dirroot . '/calendar/lib.php');
 // Max time before separate calendar events are created - 5 days
 define('REGISTRATION_MAX_EVENT_LENGTH', (5 * 24 * 60 * 60));
 
-function registration_load_capailities($cmid)
+function registration_load_capabilities($cmid)
 {
     static $sbcb;
 

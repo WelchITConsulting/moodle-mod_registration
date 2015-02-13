@@ -51,7 +51,7 @@ class SmartBridgeRegistration {
 
         // Load the capabilities if not new
         if (!empty($this->id)) {
-            $this->capabilities = registration_load_capailities($this->cm->id);
+            $this->capabilities = registration_load_capabilities($this->cm->id);
         }
 
         // Determine the periods for the event and the registration
