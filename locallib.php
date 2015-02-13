@@ -133,7 +133,7 @@ function registration_create_events($registration)
 function registration_get_status($code = 1)
 {
     $codes = array('Faulty', 'Applied', 'Accepted', 'Rejected');
-    if (in_array($code, $codes)) {
+    if (($code > 0) && ($code < count($codes))) {
         return $codes[$code];
     }
     return $codes[0];
