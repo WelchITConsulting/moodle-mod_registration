@@ -70,15 +70,23 @@ if ($action) {
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 
-$sql = 'SELECT r.id, r.registration, r.userid, r.notes, r.status, u.firstname, u.lastname '
-     . 'FROM {user} u, {registration_submissions} r '
-     . 'WHERE u.id = r.userid AND registration=? '
-     . 'ORDER BY u.lastname ASC, u.firstname ASC';
+$sql = 'SELECT u.id, u.firstname, u.lastname, r.name, r.shortname, '
+     . 'rn.name AS name_reassigned, rs.notes, rs.status '
+     . 'FROM {user} u INNER JOIN {role_assignments} ra ON ra.userid = u.id '
+     . 'INNER JOIN {context} ct ON ct.id = ra.contextid '
+     . 'INNER JOIN {course} c ON c.id = ct.instanceid '
+     . 'INNER JOIN {role} r ON r.id = ra.roleid '
+     . 'LEFT JOIN {role_names} rn ON rn.roleid = r.id '
+     . 'LEFT JOIN {registration_submissions} rs ON u.id = rs.userid '
+     . 'WHERE rs.registration = ? '
+     . 'ORDER BY rs.id ASC, r.shortname ASC, u.lastname ASC, u.firstname ASC';
 
+echo '<p>Registration->id: ' . $registration->id . '</p>';
 if (!$respondants = $DB->get_records_sql($sql, array($registration->id))) {
+    echo '<p style="color:red;">No respondants</p>';
     $respondants = array();
 }
-
+s
 $table = new html_table();
 $table->head = array('First name / Last name', 'notes', 'status');
 $table->align = array('left', 'left', 'left');
@@ -100,7 +108,6 @@ $PAGE->set_heading(format_string($course->fullname));
 echo $OUTPUT->header()
    . html_writer::table($table)
    . $OUTPUT->footer();
-
 
 
 
@@ -147,7 +154,7 @@ echo $OUTPUT->header()
 
 
 
-//SELECT u.id, c.id
+//Sourse c ON e.courseid = c.idELECT u.id, c.id
 //FROM mdl_user u
 //INNER JOIN mdl_user_enrolments ue ON ue.userid = u.id
 //INNER JOIN mdl_enrol e ON e.id = ue.enrolid
