@@ -96,7 +96,7 @@ foreach($respondants as $respondant) {
     $data[] = $respondant->firstname . ' ' . $respondant->lastname;
     $data[] = $respondant->notes;
     $data[] = $respondant->status;
-    $table->data[] = data;
+    $table->data[] = $data;
 }
 
 
