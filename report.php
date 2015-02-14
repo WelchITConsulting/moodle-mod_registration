@@ -94,7 +94,11 @@ foreach ($respondants as $respondant) {
 }
 
 $table = new html_table();
-$table->head = array('First name / Last name', 'Role', 'Notes', 'Status');
+$table->head = array(get_string('firstname') . ' / ' . get_string('lastname'), //'First name / Last name',
+                     get_string('role'),//'Role',
+                     'Notes',
+                     'Status',
+                     'Action');
 $table->align = array('left', 'left', 'left', 'left');
 
 foreach($processedresp as $key => $respondant) {

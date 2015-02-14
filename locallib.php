@@ -132,9 +132,67 @@ function registration_create_events($registration)
 
 function registration_get_status($code = 1)
 {
-    $codes = array('Faulty', 'Applied', 'Accepted', 'Rejected');
+    $codes = array('Faulty', 'Applied', 'Accepted', 'Rejected', 'Emailed');
     if (($code > 0) && ($code < count($codes))) {
         return $codes[$code];
     }
     return $codes[0];
+}
+
+function registration_process_emails($rid)
+{
+    global $DB;
+
+    $sql = 'SELECT rs.id, rs.userid, rs.status, r.name, r.starttime, r.location, '
+         . 'r.acceptsubject, r.acceptemail, r.rejectsubject, r.rejectemail '
+         . 'FROM {registration} r, {registration_submissions} rs '
+         . 'WHERE r.id = rs.registration AND (rs.status = 2 OR rs.status = 3)';
+    if ($submissions = $DB->get_records_sql($sql, array($rid))) {
+        return false;
+    }
+
+    // Iterate through each of the submissions
+    foreach($submissions as $submission) {
+
+        // Accepted
+        if ($submission->status == 2) {
+
+            // Define the email subject
+            $subject = $submission->acceptsubject;
+
+            // Format the email body text replacing the relavant fielfd
+            $arr1 = array('###NAME###',
+                          '###DATE###',
+                          '###TIME###',
+                          '###LOCATION###');
+            $arr2 =  array($registration->name,
+                           $registration->opendate,
+                           $registration->opentime,
+                           $registration->location);
+            $messagetext = str_replace($arr1, $arr2, $submission->acceptemail);
+
+        // Rejection emails
+        } elseif ($submission->status == 3) {
+
+            // Define the email subject
+            $subject = $submission->rejectsubject;
+
+            // Format the email body text replacing the relavant fielfd
+            $messagetext = $submission->rejectemail;
+        }
+
+        // If the subject is set get the users detauls and send the email
+        if (!empty($subject)) {
+
+            // Get the user to send the email to
+            $user = core_user::get_user($submission->userid);
+
+            // Send out the email
+            if (email_to_user($user, core_user::get_noreply_user(), $subject, $messagetext, "", "", "", false)) {
+
+                // Update the status for this user
+                $DB->set_field('registration_submissions', 'status', 3, array('id' => $submission->id));
+            }
+        }
+    }
 }
