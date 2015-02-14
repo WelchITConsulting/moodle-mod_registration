@@ -90,8 +90,8 @@ foreach ($respondants as $respondant) {
     $processedresp[$respondant->id] = array($respondant->firstname . ' ' . $respondant->lastname,
                                             (empty($respondant->name) ? $respondant->name_reassigned : $respondant->name),
                                             $respondant->notes,
-                                            ($registration->status < 3 ? registration_get_status_dropdown('status[' . $respondant->id . ']', $respondant->status)
-                                                                       : registration_get_status($registration->status)));
+                                            ($respondant->status < 3 ? registration_get_status_dropdown('status[' . $respondant->id . ']', $respondant->status)
+                                                                     : registration_get_status($respondant->status)));
 }
 $table = new html_table();
 $table->head = array(get_string('firstname') . ' / ' . get_string('lastname'),
