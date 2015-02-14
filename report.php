@@ -90,16 +90,14 @@ foreach ($respondants as $respondant) {
     $processedresp[$respondant->id] = array($respondant->firstname . ' ' . $respondant->lastname,
                                             (empty($respondant->name) ? $respondant->name_reassigned : $respondant->name),
                                             $respondant->notes,
-                                            registration_get_status($respondant->status));
+                                            registration_get_status_dropdown('status[' . $respondant->id . ']', $respondant->status));
 }
-
 $table = new html_table();
-$table->head = array(get_string('firstname') . ' / ' . get_string('lastname'), //'First name / Last name',
-                     get_string('role'),//'Role',
+$table->head = array(get_string('firstname') . ' / ' . get_string('lastname'),
+                     get_string('role'),
                      'Notes',
-                     'Status',
-                     'Action');
-$table->align = array('left', 'left', 'left', 'left');
+                     'Status');
+$table->align = array('left', 'left', 'left', 'center');
 
 foreach($processedresp as $key => $respondant) {
     $table->data[] = $respondant;
@@ -112,7 +110,12 @@ $PAGE->navbar->add($stregistrations);
 $PAGE->set_title($course->shortname . ': ' . $stregistrations);
 $PAGE->set_heading(format_string($course->fullname));
 echo $OUTPUT->header()
+   . html_writer::start_tag('h2')
+   . html_writer::div($registration->name, 'text_to_html')
+   . html_writer::end_tag('h2')
+   . html_writer::start_tag('form', array('action' => '', 'method' => 'post'))
    . html_writer::table($table)
+   . html_writer::end_tag('form')
    . $OUTPUT->footer();
 
 

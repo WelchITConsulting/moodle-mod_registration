@@ -130,13 +130,23 @@ function registration_create_events($registration)
     }
 }
 
+function registration_get_status_codes()
+{
+    return array(0 => 'Faulty', 1 => 'Applied', 2 => 'Accepted', 3 => 'Rejected', 4 => 'Emailed');
+}
+
 function registration_get_status($code = 1)
 {
-    $codes = array('Faulty', 'Applied', 'Accepted', 'Rejected', 'Emailed');
+    $codes = registration_get_status_codes();
     if (($code > 0) && ($code < count($codes))) {
         return $codes[$code];
     }
     return $codes[0];
+}
+
+function registration_get_status_dropdown($name = 'status', $val = 1)
+{
+    return html_writer::select(registration_get_status_codes(), $name, $val);
 }
 
 function registration_process_emails($rid)
