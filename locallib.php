@@ -157,7 +157,7 @@ function registration_process_emails($rid)
          . 'r.acceptsubject, r.acceptemail, r.rejectsubject, r.rejectemail '
          . 'FROM {registration} r, {registration_submissions} rs '
          . 'WHERE r.id = rs.registration AND (rs.status = 2 OR rs.status = 3)';
-    if ($submissions = $DB->get_records_sql($sql, array($rid))) {
+    if (!$submissions = $DB->get_records_sql($sql, array($rid))) {
         return false;
     }
 
