@@ -122,10 +122,10 @@ echo $OUTPUT->header()
    . html_writer::end_tag('h2')
    . html_writer::start_tag('form', array('action' => $url, 'method' => 'post'))
    . html_writer::table($table)
-   . html_writer::end_tag('form')
    . html_writer::empty_tag('input', array('type'  => 'submit',
                                            'value' => get_string('savechanges'),
                                            'class' => 'form-submit'))
+   . html_writer::end_tag('form')
    . $OUTPUT->footer();
 
 
