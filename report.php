@@ -74,7 +74,11 @@ if (($data = data_submitted())) {
     // Process status updates
     foreach($data->status as $key => $val) {
 
+        // Update the database with the status changes
         $DB->set_field('registration_submissions', 'status', $val, array('id' => $key));
+
+        // Process the emails to be sent
+        registration_process_emails($registration->id);
     }
     // Redirect to this page
     redirect($url);
