@@ -170,26 +170,29 @@ function registration_process_emails($rid)
             // Define the email subject
             $subject = $submission->acceptsubject;
 
-            // Format the email body text replacing the relavant fielfd
-            $arr1 = array('###NAME###',
-                          '###DATE###',
-                          '###TIME###',
-                          '###LOCATION###');
-            $arr2 =  array($registration->name,
-                           $registration->opendate,
-                           $registration->opentime,
-                           $registration->location);
-            $messagetext = str_replace($arr1, $arr2, $submission->acceptemail);
+            // Select the correct text for the email body
+            $messagetext = $submission->acceptemail;
 
-        // Rejection emails
+        // Rejected
         } elseif ($submission->status == 3) {
 
             // Define the email subject
             $subject = $submission->rejectsubject;
 
-            // Format the email body text replacing the relavant fielfd
+            // Select the correct text for the email body
             $messagetext = $submission->rejectemail;
         }
+
+        // Replace placeholders with the relavant text
+        $arr1 = array('###NAME###',
+                      '###DATE###',
+                      '###TIME###',
+                      '###LOCATION###');
+        $arr2 =  array($submission->name,
+                       $submission->opendate,
+                       $submission->opentime,
+                       $submission->location);
+        $messagetext = str_replace($arr1, $arr2, $submission->acceptemail);
 
         // If the subject is set get the users detauls and send the email
         if (!empty($subject)) {
