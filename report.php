@@ -68,10 +68,16 @@ if ($action) {
     $url->param('action', 'all');
 }
 
+// Process any data submitted
 if (($data = data_submitted())) {
-    echo '<pre>';
-    print_r($data);
-    die('</pre>');
+
+    // Process status updates
+    foreach($data->status as $key => $val) {
+
+        $DB->set_field('registration_submissions', 'status', $val, array('id' => $key));
+    }
+    // Redirect to this page
+    redirect($url);
 }
 
 $PAGE->set_url($url);
