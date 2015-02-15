@@ -132,7 +132,11 @@ function registration_create_events($registration)
 
 function registration_get_status_codes()
 {
-    return array(0 => 'Faulty', 1 => 'Applied', 2 => 'Accepted', 3 => 'Rejected', 4 => 'Emailed');
+    return array(0 => 'Faulty',
+                 1 => 'Applied',
+                 2 => 'Accepted',
+                 3 => 'Rejected',
+                 4 => 'Emailed');
 }
 
 function registration_get_status($code = 1)
@@ -161,10 +165,6 @@ function registration_process_emails($rid)
         return false;
     }
 
-echo '<pre>';
-print_r($submissions);
-die('</pre>');
-
     // Iterate through each of the submissions
     foreach($submissions as $submission) {
 
@@ -188,6 +188,7 @@ die('</pre>');
         }
 
         // Define the date and time from the
+        $eventdate = DateTime::createFromFormat('U', $submission->starttime);
 
         // Replace placeholders with the relavant text
         $arr1 = array('###NAME###',
@@ -195,12 +196,12 @@ die('</pre>');
                       '###TIME###',
                       '###LOCATION###');
         $arr2 =  array($submission->name,
-                       $submission->opendate,
-                       $submission->opentime,
+                       $eventdate->format('l d F Y'),
+                       $eventdate->format('g:iA'),
                        $submission->location);
         $messagetext = str_replace($arr1, $arr2, $submission->acceptemail);
 
-        // If the subject is set get the users detauls and send the email
+        // If the subject is set get the users details and send the email
         if (!empty($subject)) {
 
             // Get the user to send the email to
@@ -210,7 +211,7 @@ die('</pre>');
             if (email_to_user($user, core_user::get_noreply_user(), $subject, $messagetext, "", "", "", false)) {
 
                 // Update the status for this user
-                $DB->set_field('registration_submissions', 'status', 3, array('id' => $submission->id));
+                $DB->set_field('registration_submissions', 'status', 4, array('id' => $submission->id));
             }
         }
     }

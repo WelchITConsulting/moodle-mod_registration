@@ -120,8 +120,6 @@ foreach($processedresp as $key => $respondant) {
     $table->data[] = $respondant;
 }
 
-
-
 $stregistrations = get_string('modulenameplural', 'registration');
 $PAGE->navbar->add($stregistrations);
 $PAGE->set_title($course->shortname . ': ' . $stregistrations);
@@ -137,63 +135,3 @@ echo $OUTPUT->header()
                                            'class' => 'form-submit'))
    . html_writer::end_tag('form')
    . $OUTPUT->footer();
-
-
-
-
-
-//$sql = 'SELECT r.id, r.registration, r.userid, r.notes, r.status, u.firstname, u.lastname '
-//     . 'FROM {user} u '
-//     . 'LEFT JOIN {registration_submissions} r '
-//     . 'ON u.id = r.userid '
-//     . 'WHERE registration=? '
-//     . 'ORDER BY u.lastname ASC, u.firstname ASC';
-
-//switch ($action) {
-//
-//    // All submissions sorted by
-//    case 'all':
-//
-//        break;
-//
-//    case 'rall':
-//
-//        break;
-//
-
-//}
-
-// Tab setup
-//if (!isset($SESSION->registration)) {
-//    $SESSION->registration = new stdClass();
-//}
-//$SESSION->registration->current_tab = 'allreport';
-
-//$sql = 'SELECT r.id, r.registration, r.userid, r.notes, r.status, u.firstname, u.lastname '
-//     . 'FROM {registration_submissions} r, {user} u '
-//     . 'WHERE r.userid = u.id AND registration=? '
-//     . 'ORDER BY id';
-//if (!$allpartisipants = $DB->get_records_sql($sql, array($registration->id))) {
-//    $allpartisipants = array();
-//}
-//$SESSION->registration->numallpartisipants = count($allpartisipants);
-//$SESSION->registration->numselectedresps = $SESSION->registration->numallpartisipants;
-//$castsql = $DB->sql_cast_char2int('r.userid');
-
-
-
-
-//Sourse c ON e.courseid = c.idELECT u.id, c.id
-//FROM mdl_user u
-//INNER JOIN mdl_user_enrolments ue ON ue.userid = u.id
-//INNER JOIN mdl_enrol e ON e.id = ue.enrolid
-//INNER JOIN mdl_course c ON e.courseid = c.id
-//and
-//
-//SELECT u.id, c.id
-//FROM mdl_user u
-//INNER JOIN mdl_role_assignments ra ON ra.userid = u.id
-//INNER JOIN mdl_context ct ON ct.id = ra.contextid
-//INNER JOIN mdl_course c ON c.id = ct.instanceid
-//INNER JOIN mdl_role r ON r.id = ra.roleid
-//WHERE r.id = 5
