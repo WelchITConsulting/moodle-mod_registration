@@ -161,6 +161,10 @@ function registration_process_emails($rid)
         return false;
     }
 
+echo '<pre>';
+print_r($submissions);
+die('</pre>');
+
     // Iterate through each of the submissions
     foreach($submissions as $submission) {
 
@@ -182,6 +186,8 @@ function registration_process_emails($rid)
             // Select the correct text for the email body
             $messagetext = $submission->rejectemail;
         }
+
+        // Define the date and time from the
 
         // Replace placeholders with the relavant text
         $arr1 = array('###NAME###',
