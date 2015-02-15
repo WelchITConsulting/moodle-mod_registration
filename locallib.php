@@ -158,9 +158,10 @@ function registration_process_emails($rid)
     global $DB;
 
     $sql = 'SELECT rs.id, rs.userid, rs.status, r.name, r.starttime, r.location, '
-         . 'r.acceptsubject, r.acceptemail, r.rejectsubject, r.rejectemail '
-         . 'FROM {registration} r, {registration_submissions} rs '
-         . 'WHERE r.id = rs.registration AND (rs.status = 2 OR rs.status = 3)';
+         . 'r.acceptsubject, r.acceptemail, r.rejectsubject, r.rejectemail, u.firstname '
+         . 'FROM {registration} r, {registration_submissions} rs, {user} u '
+         . 'WHERE r.id = rs.registration AND rs.userid = u.id '
+         . 'AND (rs.status = 2 OR rs.status = 3)';
     if (!$submissions = $DB->get_records_sql($sql, array($rid))) {
         return false;
     }
@@ -191,15 +192,18 @@ function registration_process_emails($rid)
         $eventdate = DateTime::createFromFormat('U', $submission->starttime);
 
         // Replace placeholders with the relavant text
-        $arr1 = array('###NAME###',
+        $arr1 = array('###EVENT###',
+                      '###NAME###',
                       '###DATE###',
                       '###TIME###',
                       '###LOCATION###');
         $arr2 =  array($submission->name,
+                       $submission->firstname,
                        $eventdate->format('l d F Y'),
                        $eventdate->format('g:iA'),
                        $submission->location);
-        $messagetext = str_replace($arr1, $arr2, $submission->acceptemail);
+        $subject     = str_replace($arr1, $arr2, $subject);
+        $messagetext = str_replace($arr1, $arr2, $messagetext);
 
         // If the subject is set get the users details and send the email
         if (!empty($subject)) {

@@ -21,11 +21,12 @@
  */
 
 $string['acceptemail']                      = 'Accepted email body';
-$string['acceptemail_default']              = 'Congratulations, you have been awarded a place at the ###NAME### on ###DATE### at ###TIME###. Please arraive at the ###LOCATION### in plenty of time to allow us to get started on time.';
+$string['acceptemail_default']              = 'Dear ###NAME###,\n\nCongratulations, you have been awarded a place at the ###EVENT### on ###DATE### at ###TIME###. Please arrive at the ###LOCATION### in plenty of time to allow us to get started on time.';
 $string['acceptemail_help']                 = '<p>This provides the main body of the email sent to all suuccesful applicants.</p>'
                                             . '<p>You can add the following codes into the above field which will be replaced with the relevant event data:</p>'
                                             . '<table><thead><tr><th>Code</th><th>Replaced with:</th></tr></thead><tbody>'
-                                            . '<tr><th>###NAME###</th><td>The events name</td></tr>'
+                                            . '<tr><th>##NAME###</th><td>The firstname of the site member</td></tr>'
+                                            . '<tr><th>###EVENT###</th><td>The events name</td></tr>'
                                             . '<tr><th>>###DATE###</th><td>The events start date</td></tr>'
                                             . '<tr><th>###TIME###</th><td>The events start time</td></tr>'
                                             . '<tr><th>###LOCATION###</th><td>The events location</td></tr></tbody></table>';
