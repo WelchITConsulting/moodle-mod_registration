@@ -27,7 +27,6 @@ $capabilities = array(
         'captype'       => 'write',
         'contextlevel'  => CONTEXT_COURSE,
         'archetypes'    => array(
-            'editingteacher'    => CAP_ALLOW,
             'manager'           => CAP_ALLOW
         ),
         'clonepermissionsform' => 'moodle/course:manageactivities'
@@ -41,6 +40,7 @@ $capabilities = array(
             'teacher'           => CAP_ALLOW,
             'editingteacher'    => CAP_ALLOW,
             'coursecreator'     => CAP_ALLOW,
+            'guest'             => CAP_ALLOW,
             'manager'           => CAP_ALLOW
         )
     ),
