@@ -25,7 +25,7 @@ require_once($CFG->libdir . '/eventslib.php');
 require_once($CFG->dirroot . '/calendar/lib.php');
 
 // Max time before separate calendar events are created - 5 days
-define('REGISTRATION_MAX_EVENT_LENGTH', (5 * 24 * 60 * 60));
+//define('REGISTRATION_MAX_EVENT_LENGTH', (5 * 24 * 60 * 60));
 
 function registration_load_capabilities($cmid)
 {
@@ -82,20 +82,20 @@ function registration_create_events($registration)
     $event->visible         = instance_is_visible('registration', $registration);
     $event->timeduration    = ($registration->endtime - $registration->starttime);
 
-    if ($event->timeduration <= REGISTRATION_MAX_EVENT_LENGTH) {
+//    if ($event->timeduration <= REGISTRATION_MAX_EVENT_LENGTH) {
         // Create a singke event for the whole time
         $event->name = $registration->name;
         calendar_event::create($event);
-    } else {
-        // Create separate events for the start and end of the period
-        $event->timeduration = 0;
-        $event->name = $registration->name . ' (' . get_string('eventopens', 'registration') . ')';
-        calendar_event::create($event);
-        unset($event->id);
-        $event->name = $registration->name . ' (' . get_string('eventcloses', 'registration') . ')';
-        $event->eventtype = 'close';
-        calendar_event::create($event);
-    }
+//    } else {
+//        // Create separate events for the start and end of the period
+//        $event->timeduration = 0;
+//        $event->name = $registration->name . ' (' . get_string('eventopens', 'registration') . ')';
+//        calendar_event::create($event);
+//        unset($event->id);
+//        $event->name = $registration->name . ' (' . get_string('eventcloses', 'registration') . ')';
+//        $event->eventtype = 'close';
+//        calendar_event::create($event);
+//    }
 
     // If set create registration period in the calendar
     if (($registration->closedate - $registration->opendate > 0) && ($registration->closedate <= $registration->starttime)) {
@@ -112,21 +112,21 @@ function registration_create_events($registration)
         $event->visible         = instance_is_visible('registration', $registration);
         $event->timeduration    = ($registration->closedate - $registration->opendate);
 
-        if ($event->timeduration <= REGISTRATION_MAX_EVENT_LENGTH) {
+//        if ($event->timeduration <= REGISTRATION_MAX_EVENT_LENGTH) {
             // Create a singke event for the whole time
             $event->name = get_string('registrationopen', 'registration') . ' ' . $registration->name;
             calendar_event::create($event);
-        } else {
-            // Create separate events for the start and end of the period
-            $event->timeduration = 0;
-            $event->name = get_string('registrationopens', 'registration') . ' ' . $registration->name;
-            calendar_event::create($event);
-            unset($event->id);
-            $event->name = get_string('registrationcloses', 'registration') . ' ' . $registration->name;
-            $event->timestart = $registration->closedate;
-            $event->eventtype = 'close';
-            calendar_event::create($event);
-        }
+//        } else {
+//            // Create separate events for the start and end of the period
+//            $event->timeduration = 0;
+//            $event->name = get_string('registrationopens', 'registration') . ' ' . $registration->name;
+//            calendar_event::create($event);
+//            unset($event->id);
+//            $event->name = get_string('registrationcloses', 'registration') . ' ' . $registration->name;
+//            $event->timestart = $registration->closedate;
+//            $event->eventtype = 'close';
+//            calendar_event::create($event);
+//        }
     }
 }
 
