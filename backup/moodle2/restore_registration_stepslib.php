@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2015 Welch IT Consulting
  *
@@ -15,16 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Filename : version
+ * Filename : restore_registration_stepslib
  * Author   : John Welch <jwelch@welchitconsulting.co.uk>
- * Created  : 24 Jan 2015
+ * Created  : 03 May 2015
  */
 
-$module->version   = 2015050201;
-$module->requires  = 2013051402;
-
-$module->component = 'mod_registration';
-$module->cron      = 60 * 60;
-
-$module->release   = 2015050201;
-$module->maturity  = MATURITY_BETA;

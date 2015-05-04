@@ -86,5 +86,22 @@ function xmldb_registration_upgrade($oldversion = 0)
         upgrade_mod_savepoint(true, 2015020800, 'registration');
     }
 
+    if ($oldversion < 2015050201) {
+
+        // Process the database schema updates for the registration table
+        $table = new xmldb_table('registration');
+
+        // Add the accept email body format field
+        $field = new xmldb_field('acceptemailformat', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'acceptemail');
+        $dbman->add_field($table, $field);
+
+        // Add the reject email body format field
+        $field = new xmldb_field('rejectemailformat', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'rejectemail');
+        $dbman->add_field($table, $field);
+
+        // Registration savepoint reached
+        upgrade_mod_savepoint(true, '2015050200', 'registration');
+    }
+
     return true;
 }
