@@ -20,7 +20,7 @@ Author   : John Welch <jwelch@welchitconsulting.co.uk>
 Created  : 24 Jan 2015
 -->
 
-<XMLDB  PATH="mod/registration/db" VERSION="2015020800" COMMENT=""
+<XMLDB  PATH="mod/registration/db" VERSION="2015050201" COMMENT="XMLDB file for the event registration module"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
     <TABLES>
@@ -39,8 +39,10 @@ Created  : 24 Jan 2015
                 <FIELD NAME="closedate" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
                 <FIELD NAME="acceptsubject" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="acceptemail" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="acceptemailformat" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false"/>
                 <FIELD NAME="rejectsubject" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
                 <FIELD NAME="rejectemail" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="rejectemailformat" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false"/>
                 <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
                 <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
             </FIELDS>

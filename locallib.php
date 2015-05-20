@@ -175,7 +175,7 @@ function registration_process_emails($rid)
             // Define the email subject
             $subject = $submission->acceptsubject;
 
-            // Select the correct text for the email body
+            // Select the correct text for the email bodymod_
             $messagetext = $submission->acceptemail;
 
         // Rejected
