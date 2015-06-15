@@ -57,6 +57,20 @@ class SmartBridgeRegistration {
         // Determine the periods for the event and the registration
         $this->eventavailable        = $this->endtime - $this->starttime;
         $this->registrationavailable = $this->closedate - $this->opendate;
+
+        // Set the start and end days for the event and registration periods
+        $this->eventstart = calendar_day_representation($this->starttime)
+                          . ', '
+                          . calendar_time_representation($this->starttime);
+        $this->eventend   = calendar_day_representation($this->endtime)
+                          . ', '
+                          . calendar_time_representation($this->endtime);
+        $this->regstart   = calendar_day_representation($this->opendate)
+                          . ', '
+                          . calendar_time_representation($this->opendate);
+        $this->regend     = calendar_day_representation($this->closedate)
+                          . ', '
+                          . calendar_time_representation($this->closedate);
     }
 
     public function is_active()
@@ -82,5 +96,20 @@ class SmartBridgeRegistration {
         global $DB, $USER;
         $submissions = (int)$DB->count_records_sql('SELECT COUNT(*) FROM {registration_submissions} WHERE registration=? AND userid=?', array($this->id, $USER->id));
         return ($submissions > 0);
+    }
+
+    public function has_submissions()
+    {
+        global $DB;
+        $submissions = (int) $DB->count_records_sql('SELECT COUNT(*) FROM {registration_submissions} WHERE registration=?',
+                                                    array($this->id));
+        return ($submissions > 0);
+    }
+
+    public function display_event()
+    {
+        global $DB;
+
+
     }
 }

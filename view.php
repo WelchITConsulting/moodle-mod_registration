@@ -70,99 +70,144 @@ $registration = new SmartBridgeRegistration($course, $cm, 0, $registration);
 $PAGE->set_title(format_string($registration->name));
 $PAGE->set_heading(format_string($course->fullname));
 
+echo $OUTPUT->header()
+   . $OUTPUT->heading(format_text($registration->name));
+
 if ($registration->capabilities->manage) {
-    echo $OUTPUT->header()
-       . $OUTPUT->heading(format_text($registration->name));
 
-    if ($registration->intro) {
-        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
-    }
-    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
+    echo $OUTPUT->box_start('generalbox boxalignright boxwidthwide');
 
-    // Display link to the report
-    $responsesurl = new moodle_url($CFG->wwwroot . '/mod/registration/report.php',
-                                   array('instance' => $registration->id));
-    if (!empty($id)) {
-        $responsesurl->param('id', $id);
-    }
-    echo '<a href="' . $responsesurl->out() . '" class="viewalllink">'
-       . get_string('viewallresponses', 'registration') . '</a>';
-
-} elseif ($registration->opendate > time()) {
-    echo $OUTPUT->header()
-       . $OUTPUT->heading(format_text($registration->name));
-
-    if ($registration->intro) {
-        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
-    }
-    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
-       . html_writer::div(get_string('registrationnotopen', 'registration'), 'message');
-
-} elseif ($registration->closedate < time()) {
-    echo $OUTPUT->header()
-       . $OUTPUT->heading(format_text($registration->name));
-
-    if ($registration->intro) {
-        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
-    }
-    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
-       . html_writer::div(get_string('registrationclosed', 'registration'), 'message');
-
-} elseif ($registration->is_active()) {
-    echo $OUTPUT->header()
-       . $OUTPUT->heading(format_text($registration->name));
-
-    if ($registration->intro) {
-        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
-    }
-    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
-       . html_writer::div(get_string('eventnotactive', 'registration'), 'message');
-
-} elseif (!$registration->submitted()) {
-
-    // Display the form
-    require_once($CFG->dirroot . '/mod/registration/interest_form.php');
-    $mform = new registration_interest_form();
-    $interest = new stdClass();
-    $interest->id = $id;
-    $interest->registration = $registration->id;
-    $interest->userid = $USER->id;
-    $interest->status = 1;
-
-    if ($mform->is_cancelled()) {
-        redirect($CFG->wwwroot . '/mod/register/view.php?id=' . $id);
-
-    } elseif ($data = $mform->get_data()) {
-        unset($interest->id);
-        $interest->notes = $data->notes;
-        $interest->timecreated = time();
-        $interest->timemodified = $interest->timecreated;
-
-        $DB->insert_record('registration_submissions', $interest);
-        redirect($CFG->wwwroot . '/mod/registration/view.php?id=' . $id);
-
-    } else {
-        echo $OUTPUT->header()
-           . $OUTPUT->heading(format_text($registration->name));
-
-        if ($registration->intro) {
-            echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+    if ($registration->has_submissions()) {
+        $url = new moodle_url($CFG->wwwroot . '/mod/registration/report.php',
+                              array('instance' => $registration->id));
+        if (!empty($id)) {
+            $url->param('id', $id);
         }
-        echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
-
-        $mform->set_data($interest);
-        $mform->display();
+        echo html_writer::link($url, get_string('viewallresponses', 'registration'))
+           . html_writer::empty_tag('br');
+        $url = new moodle_url($CFG->wwwroot . '/mod/registration/print.php',
+                              array('instance' => $registration->id));
+        if (!empty($id)) {
+            $url->param('id', $id);
+        }
+        echo html_writer::link($url, get_string('printresponses', 'registration'));
     }
 
-} else {
-    echo $OUTPUT->header()
-       . $OUTPUT->heading(format_text($registration->name));
+
+    echo $OUTPUT->box_end();
+
+//    if ($registration->intro) {
+//        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+//    }
+//    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
+//
+//    // Display link to the report
+//    $responsesurl = new moodle_url($CFG->wwwroot . '/mod/registration/report.php',
+//                                   array('instance' => $registration->id));
+//    if (!empty($id)) {
+//        $responsesurl->param('id', $id);
+//    }
+//    echo '<a href="' . $responsesurl->out() . '" class="viewalllink">'
+//       . get_string('viewallresponses', 'registration') . '</a>';
+//
+//} elseif ($registration->opendate > time()) {
+//    echo $OUTPUT->header()
+//       . $OUTPUT->heading(format_text($registration->name));
+//
+    echo '<dl class="registration-detail"><dt>'
+       . get_string('starttime', 'registration')
+       . '</dt><dd>'
+       . format_string($registration->eventstart)
+       . ' &raquo; '
+       . format_string($registration->eventend)
+       . '</dd><dt>'
+       . get_string('period', 'registration')
+       . '</dt><dd>'
+       . format_string($registration->regstart)
+       . ' &raquo; '
+       . format_string($registration->regend)
+       . '</dd><dt>'
+       . get_string('location', 'registration')
+       . '</dt><dd>'
+       . format_string($registration->location)
+       . '</dd><dt>'
+       . get_string('numberofplaces', 'registration')
+       . '</dt><dd>'
+       . format_string($registration->places)
+       . '</dd></dl>';
 
     if ($registration->intro) {
         echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
     }
-    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
-       . html_writer::div(get_string('submitted', 'registration'), 'message');
+//    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
+//       . html_writer::div(get_string('registrationnotopen', 'registration'), 'message');
+//
+//} elseif ($registration->closedate < time()) {
+//    echo $OUTPUT->header()
+//       . $OUTPUT->heading(format_text($registration->name));
+//
+//    if ($registration->intro) {
+//        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+//    }
+//    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
+//       . html_writer::div(get_string('registrationclosed', 'registration'), 'message');
+//
+//} elseif ($registration->is_active()) {
+//    echo $OUTPUT->header()
+//       . $OUTPUT->heading(format_text($registration->name));
+//
+//    if ($registration->intro) {
+//        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+//    }
+//    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
+//       . html_writer::div(get_string('eventnotactive', 'registration'), 'message');
+//
+//} elseif (!$registration->submitted()) {
+//
+//    // Display the form
+//    require_once($CFG->dirroot . '/mod/registration/interest_form.php');
+//    $mform = new registration_interest_form();
+//    $interest = new stdClass();
+//    $interest->id = $id;
+//    $interest->registration = $registration->id;
+//    $interest->userid = $USER->id;
+//    $interest->status = 1;
+//
+//    if ($mform->is_cancelled()) {
+//        redirect($CFG->wwwroot . '/mod/register/view.php?id=' . $id);
+//
+//    } elseif ($data = $mform->get_data()) {
+//        unset($interest->id);
+//        $interest->notes = $data->notes;
+//        $interest->timecreated = time();
+//        $interest->timemodified = $interest->timecreated;
+//
+//        $DB->insert_record('registration_submissions', $interest);
+//        redirect($CFG->wwwroot . '/mod/registration/view.php?id=' . $id);
+//
+//    } else {
+//        echo $OUTPUT->header()
+//           . $OUTPUT->heading(format_text($registration->name));
+//
+//        if ($registration->intro) {
+//            echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+//        }
+//        echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide');
+//
+//        $mform->set_data($interest);
+//        $mform->display();
+//    }
+//
+//} else {
+//    echo $OUTPUT->header()
+//       . $OUTPUT->heading(format_text($registration->name));
+//
+//    if ($registration->intro) {
+//        echo $OUTPUT->box(format_module_intro('registration', $registration, $cm->id), 'generalbox', 'intro');
+//    }
+//    echo $OUTPUT->box_start('generalbox boxaligncenter boxwidthwide')
+//       . html_writer::div(get_string('submitted', 'registration'), 'message')
+//       . $OUTPUT->box_end();
 }
-echo $OUTPUT->box_end()
-   . $OUTPUT->footer();
+//echo $OUTPUT->box_end()
+echo $OUTPUT->footer();

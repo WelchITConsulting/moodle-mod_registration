@@ -62,6 +62,7 @@ $string['pluginadministration']             = 'Registration administration';
 $string['pluginname']                       = 'Registration';
 $string['preview']                          = 'Preview registration';
 $string['printblank']                       = 'Print blank registration';
+$string['printresponses']                   = 'Print responses';
 $string['registrationclosed']               = 'The registration period is now closed';
 $string['registrationcloses']               = 'Registration closes:';
 $string['registrationnotopen']              = 'The registration period has not started yet';
