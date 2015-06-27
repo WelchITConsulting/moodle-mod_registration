@@ -220,3 +220,15 @@ function registration_process_emails($rid)
         }
     }
 }
+
+function registration_get_editor_options()
+{
+    global $CFG;
+    return array('subdirs'     => 1,
+                 'maxbytes'    => $CFG->maxbytes,
+                 'maxfiles'    => 1,
+                 'chageformat' => 1,
+                 'context'     => $context,
+                 'noclean'     => 1,
+                 'trusttext'   => 0);
+}

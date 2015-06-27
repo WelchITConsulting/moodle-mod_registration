@@ -104,7 +104,7 @@ class mod_registration_mod_form extends moodleform_mod
                                                                               'mod_registration',
                                                                               'acceptemail',
                                                                               0,
-                                                                              page_get_editor_options($this->context),
+                                                                              registration_get_editor_options($this->context),
                                                                               $default_values['acceptemail']);
             $default_values['acceptbody']['itemid'] = $acceptitemid;
 
@@ -115,7 +115,7 @@ class mod_registration_mod_form extends moodleform_mod
                                                                               'mod_registration',
                                                                               'rejecttemail',
                                                                               0,
-                                                                              page_get_editor_options($this->context),
+                                                                              registration_get_editor_options($this->context),
                                                                               $default_values['rejectemail']);
             $default_values['rejectbody']['itemid'] = $rejectitemid;
         }
