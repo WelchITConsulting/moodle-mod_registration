@@ -20,7 +20,7 @@
  * Created  : 24 Jan 2015
  */
 
-$module->version   = 2015052000;
+$module->version   = 2015062700;
 $module->requires  = 2015051100;
 
 $module->component = 'mod_registration';

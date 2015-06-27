@@ -22,34 +22,48 @@
 
 require_once($CFG->dirroot . '/mod/registration/locallib.php');
 
-function registration_add_instance($registration)
+function registration_add_instance($data, $mform = null)
 {
     global $DB;
 
-    $registration->timemodified = time();
-    $registration->timecreated  = $registration->timemodified;
+    if ($mform) {
+        $data->acceptemail       = $data->acceptbody['text'];
+        $data->acceptemailformat = $data->acceptbody['format'];
 
-    if (!($registration->id = $DB->insert_record('registration', $registration))) {
+        $data->rejectemail       = $data->rejectbody['text'];
+        $data->rejectemailformat = $data->rejectbody['format'];
+    }
+    $data->timemodified = time();
+    $date->timecreated  = $data->timemodified;
+
+    if (!($data->id = $DB->insert_record('registration', $data))) {
         return false;
     }
 
     // Create the events in the calendar
-    registration_create_events($registration);
+    registration_create_events($data);
 
-    return $registration->id;
+    return $data->id;
 }
 
-function registration_update_instance($registration)
+function registration_update_instance($data, $mform)
 {
     global $DB;
 
-    $registration->timemodified = time();
-    $registration->id = $registration->instance;
+    if ($mform) {
+        $data->acceptemail       = $data->acceptbody['text'];
+        $data->acceptemailformat = $data->acceptbody['format'];
+
+        $data->rejectemail       = $data->rejectbody['text'];
+        $data->rejectemailformat = $data->rejectbody['format'];
+    }
+    $data->timemodified = time();
+    $date->id = $data->instance;
 
     // Create the events in the calendar
-    registration_create_events($registration);
+    registration_create_events($data);
 
-    return $DB->update_record('registration', $registration);
+    return $DB->update_record('registration', $date§);
 }
 
 function registration_delete_instance($id)
