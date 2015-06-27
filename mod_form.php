@@ -37,8 +37,9 @@ class mod_registration_mod_form extends moodleform_mod
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
 
-        $this->add_intro_editor(true, get_string('description', 'registration'));
+        $this->standard_intro_elements(get_string('description', 'registration'));
         $mform->addHelpButton('introeditor', 'description', 'registration');
+        $mform->addRule('introeditor', null, 'required', null, 'client');
 
         $mform->addElement('date_time_selector', 'starttime', get_string('starttime', 'registration'));
         $mform->addRule('starttime', null, 'required', null, 'client');
@@ -109,7 +110,7 @@ class mod_registration_mod_form extends moodleform_mod
             $default_values['acceptbody']['itemid'] = $acceptitemid;
 
             $rejectitemid = file_get_submitted_draft_itemid('rejectbody');
-            $default_values['rejectbody']['format'] = $default_values['rejecttemailformat'];
+            $default_values['rejectbody']['format'] = $default_values['rejectemailformat'];
             $defeult_values['rejectbody']['text']   = file_prepare_draft_area($rejectitemid,
                                                                               $this->context->id,
                                                                               'mod_registration',

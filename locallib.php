@@ -221,7 +221,7 @@ function registration_process_emails($rid)
     }
 }
 
-function registration_get_editor_options()
+function registration_get_editor_options($context)
 {
     global $CFG;
     return array('subdirs'     => 1,

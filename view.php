@@ -114,7 +114,7 @@ if ($registration->capabilities->manage) {
 //    echo $OUTPUT->header()
 //       . $OUTPUT->heading(format_text($registration->name));
 //
-    echo '<dl class="registration-detail"><dt>'
+    echo '<dl class="registration-detail dl-horizontal"><dt>'
        . get_string('starttime', 'registration')
        . '</dt><dd>'
        . format_string($registration->eventstart)
