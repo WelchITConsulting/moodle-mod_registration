@@ -114,10 +114,10 @@ if ($sbregistration->capabilities->manage) {
 //    echo $OUTPUT->header()
 //       . $OUTPUT->heading(format_text($sbregistration->name));
 //
-    if ($registration->opendate > 0) {
+    if ($sbregistration->opendate > 0) {
         $opendate = format_string($sbregistration->regstart);
     }
-    if ($registration->closedate > 0) {
+    if ($sbregistration->closedate > 0) {
         $closedate = format_string($sbregistration->regend);
     }
     echo '<dl class="sbregistration-detail dl-horizontal"><dt>'
