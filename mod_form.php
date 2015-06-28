@@ -59,10 +59,19 @@ class mod_sbregistration_mod_form extends moodleform_mod
 
         $mform->addElement('header', 'timinghdr', get_string('period', 'sbregistration'));
 
-        $mform->addElement('date_time_selector', 'opendate', get_string('opendate', 'sbregistration'));
-        $mform->addHelpButton('opendate', 'opendate', 'sbregistration');
-        $mform->addElement('date_time_selector', 'closedate', get_string('closedate', 'sbregistration'));
-        $mform->addHelpButton('closedate', 'closedate', 'sbregistration');
+        $enableopengroup = array();
+        $enableopengroup[] =& $mform->createElement('checkbox', 'useopendate', get_string('opendate', 'sliclquestions'));
+        $enableopengroup[] =& $mform->createElement('date_time_selector', 'opendate', '');
+        $mform->addGroup($enableopengroup, 'enablegroup', get_string('opendate', 'sliclquestions'), ' ', false);
+        $mform->addHelpButton('enableopengroup', 'opendate', 'sbregistration');
+        $mform->disabledIf('enableopengroup', 'useopendate', 'notchecked');
+
+        $enableclosegroup = array();
+        $enableclosegroup[] =& $mform->createElement('checkbox', 'useclosedate', get_string('closedate', 'sliclquestions'));
+        $enableclosegroup[] =& $mform->createElement('date_time_selector', 'closedate', '');
+        $mform->addGroup($enableclosegroup, 'enablegroup', get_string('closedate', 'sliclquestions'), ' ', false);
+        $mform->addHelpButton('enableclosegroup', 'closedate', 'sbregistration');
+        $mform->disabledIf('enableclosegroup', 'useclosedate', 'notchecked');
 
         $mform->addElement('header', 'emails', get_string('emailconfirmations', 'sbregistration'));
 
@@ -99,10 +108,9 @@ class mod_sbregistration_mod_form extends moodleform_mod
     function data_preprocessing(&$default_values)
     {
         if ($this->current->instance) {
-
             $acceptitemid = file_get_submitted_draft_itemid('acceptbody');
             $default_values['acceptbody']['format'] = $default_values['acceptemailformat'];
-            $defeult_values['acceptbody']['text']   = file_prepare_draft_area($acceptitemid,
+            $default_values['acceptbody']['text']   = file_prepare_draft_area($acceptitemid,
                                                                               $this->context->id,
                                                                               'mod_sbregistration',
                                                                               'acceptemail',
@@ -113,7 +121,7 @@ class mod_sbregistration_mod_form extends moodleform_mod
 
             $rejectitemid = file_get_submitted_draft_itemid('rejectbody');
             $default_values['rejectbody']['format'] = $default_values['rejectemailformat'];
-            $defeult_values['rejectbody']['text']   = file_prepare_draft_area($rejectitemid,
+            $default_values['rejectbody']['text']   = file_prepare_draft_area($rejectitemid,
                                                                               $this->context->id,
                                                                               'mod_sbregistration',
                                                                               'rejecttemail',
@@ -121,6 +129,16 @@ class mod_sbregistration_mod_form extends moodleform_mod
                                                                               sbregistration_get_editor_options($this->context),
                                                                               $default_values['rejectemail']);
             $default_values['rejectbody']['itemid'] = $rejectitemid;
+        }
+        if (empty($default_values['opendate'])) {
+            $default_values['useopendate'] = 0;
+        } else {
+            $default_values['useopendate'] = 1;
+        }
+        if (empty($default_values['closedate'])) {
+            $default_values['useclosedate'] = 0;
+        } else {
+            $default_values['useclosedate'] = 1;
         }
     }
 }

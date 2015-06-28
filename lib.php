@@ -33,6 +33,12 @@ function sbregistration_add_instance($data, $mform = null)
         $data->rejectemail       = $data->rejectbody['text'];
         $data->rejectemailformat = $data->rejectbody['format'];
     }
+    if (empty($data->useopendate)) {
+        $data->opendate = 0;
+    }
+    if (empty($data->useclosedate)) {
+        $data->closedate = 0;
+    }
     $data->timemodified = time();
     $data->timecreated  = $data->timemodified;
 
@@ -56,6 +62,12 @@ function sbregistration_update_instance($data, $mform)
 
         $data->rejectemail       = $data->rejectbody['text'];
         $data->rejectemailformat = $data->rejectbody['format'];
+    }
+    if (empty($data->useopendate)) {
+        $data->opendate = 0;
+    }
+    if (empty($data->useclosedate)) {
+        $data->closedate = 0;
     }
     $data->timemodified = time();
     $data->id = $data->instance;
