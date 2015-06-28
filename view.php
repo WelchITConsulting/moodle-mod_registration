@@ -114,18 +114,24 @@ if ($sbregistration->capabilities->manage) {
 //    echo $OUTPUT->header()
 //       . $OUTPUT->heading(format_text($sbregistration->name));
 //
+    if ($registration->opendate > 0) {
+        $opendate = format_string($sbregistration->regstart);
+    }
+    if ($registration->closedate > 0) {
+        $closedate = format_string($sbregistration->regend);
+    }
     echo '<dl class="sbregistration-detail dl-horizontal"><dt>'
        . get_string('starttime', 'sbregistration')
        . '</dt><dd>'
        . format_string($sbregistration->eventstart)
-       . ' &raquo; '
+       . '&nbsp;&nbsp;&raquo;&nbsp;&nbsp;'
        . format_string($sbregistration->eventend)
        . '</dd><dt>'
        . get_string('period', 'sbregistration')
        . '</dt><dd>'
-       . format_string($sbregistration->regstart)
-       . ' &raquo; '
-       . format_string($sbregistration->regend)
+       . $opendate
+       . (!empty($opendate) && !empty($closedate) ? '&nbsp;&nbsp;&raquo;&nbsp;&nbsp;' : '')
+       . $closedate
        . '</dd><dt>'
        . get_string('location', 'sbregistration')
        . '</dt><dd>'

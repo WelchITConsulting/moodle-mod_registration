@@ -34,7 +34,7 @@ function sbregistration_add_instance($data, $mform = null)
         $data->rejectemailformat = $data->rejectbody['format'];
     }
     if (empty($data->useopendate)) {
-        $data->opendate = 0;
+        $data->opedate = 0;
     }
     if (empty($data->useclosedate)) {
         $data->closedate = 0;
@@ -67,7 +67,7 @@ function sbregistration_update_instance($data, $mform)
         $data->opendate = 0;
     }
     if (empty($data->useclosedate)) {
-        $data->closedate = 0;
+        $data->cloasedate = 0;
     }
     $data->timemodified = time();
     $data->id = $data->instance;

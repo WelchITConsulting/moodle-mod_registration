@@ -62,14 +62,14 @@ class mod_sbregistration_mod_form extends moodleform_mod
         $enableopengroup = array();
         $enableopengroup[] =& $mform->createElement('checkbox', 'useopendate', get_string('opendate', 'sliclquestions'));
         $enableopengroup[] =& $mform->createElement('date_time_selector', 'opendate', '');
-        $mform->addGroup($enableopengroup, 'enablegroup', get_string('opendate', 'sliclquestions'), ' ', false);
+        $mform->addGroup($enableopengroup, 'enableopengroup', get_string('opendate', 'sliclquestions'), ' ', false);
         $mform->addHelpButton('enableopengroup', 'opendate', 'sbregistration');
         $mform->disabledIf('enableopengroup', 'useopendate', 'notchecked');
 
         $enableclosegroup = array();
         $enableclosegroup[] =& $mform->createElement('checkbox', 'useclosedate', get_string('closedate', 'sliclquestions'));
         $enableclosegroup[] =& $mform->createElement('date_time_selector', 'closedate', '');
-        $mform->addGroup($enableclosegroup, 'enablegroup', get_string('closedate', 'sliclquestions'), ' ', false);
+        $mform->addGroup($enableclosegroup, 'enableclosegroup', get_string('closedate', 'sliclquestions'), ' ', false);
         $mform->addHelpButton('enableclosegroup', 'closedate', 'sbregistration');
         $mform->disabledIf('enableclosegroup', 'useclosedate', 'notchecked');
 

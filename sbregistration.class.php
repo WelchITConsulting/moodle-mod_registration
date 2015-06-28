@@ -65,12 +65,20 @@ class SmartBridgeRegistration {
         $this->eventend   = calendar_day_representation($this->endtime)
                           . ', '
                           . calendar_time_representation($this->endtime);
-        $this->regstart   = calendar_day_representation($this->opendate)
-                          . ', '
-                          . calendar_time_representation($this->opendate);
-        $this->regend     = calendar_day_representation($this->closedate)
-                          . ', '
-                          . calendar_time_representation($this->closedate);
+        if ($this->opendate == 0) {
+            $this->regstart = 0;
+        } else {
+            $this->regstart   = calendar_day_representation($this->opendate)
+                              . ', '
+                              . calendar_time_representation($this->opendate);
+        }
+        if ($this->closedate == 0) {
+            $this->regend = 0;
+        } else {
+            $this->regend     = calendar_day_representation($this->closedate)
+                              . ', '
+                              . calendar_time_representation($this->closedate);
+        }
     }
 
     public function is_active()
