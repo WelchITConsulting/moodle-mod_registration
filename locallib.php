@@ -103,7 +103,7 @@ function sbregistration_create_events($sbregistration)
         $event->timeduration    = ($sbregistration->closedate - $sbregistration->opendate);
 
         // Create a singke event for the whole time
-        $event->name = get_string('sbregistrationopen', 'sbregistration') . ' ' . $sbregistration->name;
+        $event->name = get_string('registrationopen', 'sbregistration') . ' ' . $sbregistration->name;
         calendar_event::create($event);
     }
 }
@@ -193,7 +193,7 @@ function sbregistration_process_emails($rid)
             if (email_to_user($user, core_user::get_noreply_user(), $subject, $messagetext, "", "", "", false)) {
 
                 // Update the status for this user
-                $DB->set_field('registration_submissions', 'status', 4, array('id' => $submission->id));
+                $DB->set_field('sbregistration_submissions', 'status', 4, array('id' => $submission->id));
             }
         }
     }

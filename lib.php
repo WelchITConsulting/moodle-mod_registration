@@ -34,7 +34,7 @@ function sbregistration_add_instance($data, $mform = null)
         $data->rejectemailformat = $data->rejectbody['format'];
     }
     $data->timemodified = time();
-    $date->timecreated  = $data->timemodified;
+    $data->timecreated  = $data->timemodified;
 
     if (!($data->id = $DB->insert_record('sbregistration', $data))) {
         return false;
@@ -58,12 +58,12 @@ function sbregistration_update_instance($data, $mform)
         $data->rejectemailformat = $data->rejectbody['format'];
     }
     $data->timemodified = time();
-    $date->id = $data->instance;
+    $data->id = $data->instance;
 
     // Create the events in the calendar
     sbregistration_create_events($data);
 
-    return $DB->update_record('sbregistration', $date§);
+    return $DB->update_record('sbregistration', $data);
 }
 
 function sbregistration_delete_instance($id)
