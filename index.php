@@ -21,35 +21,35 @@
  */
 
 require_once('../../config.php');
-require_once($CFG->dirroot . '/mod/registration/locallib.php');
+require_once($CFG->dirroot . '/mod/sbregistration/locallib.php');
 
 $id = required_param('id', PARAM_INT);
-$PAGE->set_url('/mod/registration/index.oho', array('id' => $id));
+$PAGE->set_url('/mod/sbregistration/index.oho', array('id' => $id));
 if (!$course = $DB->get_record('course', array('id' => $id))) {
-    print_error('incorrectcourseid', 'registration');
+    print_error('incorrectcourseid', 'sbregistration');
 }
 $coursecontext = context_course::instance($id);
 require_login($course->id);
 $PAGE->set_pagelayout('incourse');
-add_to_log($course->id, 'registration', 'view all', 'index.php?id=' . $course->id, '');
+add_to_log($course->id, 'sbregistration', 'view all', 'index.php?id=' . $course->id, '');
 
 // Output the header
-$strregistrations = get_string('modulenameplural', 'registration');
+$strsbregistrations = get_string('modulenameplural', 'sbregistration');
 $PAGE->navbar->add($strregistrations);
 $PAGE->set_title($course->shortname . ': ' . $strregistrations);
 $PAGE->set_heading(format_string($course->fullname));
 echo $OUTPUT->header();
 
 // Get the appropriate data
-if (!$registrations = get_all_instances_in_course('registration', $course)) {
-    notice(get_string('thereareno', 'moodle', $strregistrations), '../../course/view.php?id=' . $course->id);
+if (!$sbregistrations = get_all_instances_in_course('sbregistration', $course)) {
+    notice(get_string('thereareno', 'moodle', $strsbregistrations), '../../course/view.php?id=' . $course->id);
     die();
 }
 
 // Check if we need the closing date header
 $showclosingheader = false;
-foreach($registrations as $registration) {
-    if ($registration->closedate > $registration->opendate) {
+foreach($sbregistrations as $sbregistration) {
+    if ($sbregistration->closedate > $sbregistration->opendate) {
         $showclosingheader = true;
         break;
     }
@@ -59,21 +59,21 @@ $headings = array(get_string('name'));
 $align = array('left');
 
 if ($showclosingheader) {
-    array_push($headings, get_string('registationopens', 'registration'));
+    array_push($headings, get_string('registationopens', 'sbregistration'));
     array_push($align, 'left');
-    array_push($headings, get_string('registationcloses', 'registration'));
+    array_push($headings, get_string('registationcloses', 'sbregistration'));
     array_push($align, 'left');
 }
 array_unshift($headings, get_string('sectionname', 'format_' . $course->format));
 array_unshift($align, 'left');
 $showing = '';
-if (  has_capability('mod/registration:viewsingleresponse', $coursecontext)) {
-    array_push($headings, get_string('responses', 'registration'));
+if (  has_capability('mod/sbregistration:viewsingleresponse', $coursecontext)) {
+    array_push($headings, get_string('responses', 'sbregistration'));
     array_push($align, 'center');
     $showing = 'stats';
-    array_push($headings, get_string('realm', 'registration'));
+    array_push($headings, get_string('realm', 'sbregistration'));
     array_push($align, 'left');
-} elseif (  has_capability('mod/registration:submit', $coursecontext)) {
+} elseif (  has_capability('mod/sbregistration:submit', $coursecontext)) {
     array_push($headings, get_string('status'));
     array_push($align, 'left');
     $showing = 'reponses';
@@ -87,10 +87,10 @@ $table->align = $align;
 $currentsection = '';
 $expiredevents = array();
 $liveevents = array();
-foreach($registrations as $registration) {
-    $cmid = $registration->coursemodule;
+foreach($sbregistrations as $sbregistration) {
+    $cmid = $sbregistration->coursemodule;
     $data = array();
-    if ($registration->endtime > time()) {
+    if ($sbregistration->endtime > time()) {
         // Compile a list of the expired events
 
 
@@ -99,28 +99,28 @@ foreach($registrations as $registration) {
     } else {
         // Compile a list of the active events
         $strsection = '';
-        if ($registration->section != $currentsection) {
-            $strsection = get_section_name($course, $registration->section);
-            $currentsection = $registration->section;
+        if ($sbregistration->section != $currentsection) {
+            $strsection = get_section_name($course, $sbregistration->section);
+            $currentsection = $sbregistration->section;
         }
         $data[] = $strsection;
         // Show normal if the mod is visible
         $class = '';
-        if (!$registration->visible) {
+        if (!$sbregistration->visible) {
             $class = ' class="dimmed"';
         }
-        $data[] = '<a href="view.php?id=' . $cmid . '"' . $class .'>' . $registration->name . '</a>';
+        $data[] = '<a href="view.php?id=' . $cmid . '"' . $class .'>' . $sbregistration->name . '</a>';
         // Close date
-        if ($registration->closedate > $registration->opendate) {
-            $data[] = userdate($registration->opendate);
-            $data[] = userdate($registration->closedate);
+        if ($sbregistration->closedate > $sbregistration->opendate) {
+            $data[] = userdate($sbregistration->opendate);
+            $data[] = userdate($sbregistration->closedate);
         } elseif ($showclosingheader) {
             $data[] = '';
             $data[] = '';
         }
         if ($showing == 'responses') {
             $status = '';
-            if ($responses = registration_get_user_responses($registration->id, $USER->id, $complete = false)) {
+            if ($responses = registration_get_user_responses($sbregistration->id, $USER->id, $complete = false)) {
                 foreach($responses as $response) {
 //                    if ($response)
                 }

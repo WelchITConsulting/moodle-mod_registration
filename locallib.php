@@ -27,24 +27,24 @@ require_once($CFG->dirroot . '/calendar/lib.php');
 // Max time before separate calendar events are created - 5 days
 //define('REGISTRATION_MAX_EVENT_LENGTH', (5 * 24 * 60 * 60));
 
-function registration_load_capabilities($cmid)
+function sbregistration_load_capabilities($cmid)
 {
     static $sbcb;
 
     if (empty($sbcb)) {
-        $context = registration_get_context($cmid);
+        $context = sbregistration_get_context($cmid);
         $sbcb = new object();
-        $sbcb->view                 = has_capability('mod/registration:view', $context);
-        $sbcb->viewsingleresponse   = has_capability('mod/registration:viewsingleresponse', $context);
-        $sbcb->deleteresponses      = has_capability('mod/registration:deleteresponses', $context);
-        $sbcb->downloadresponses    = has_capability('mod/registration:downloadresponses', $context);
-        $sbcb->submit               = has_capability('mod/registration:submit', $context);
-        $sbcb->manage               = has_capability('mod/registration:manage', $context);
+        $sbcb->view                 = has_capability('mod/sbregistration:view', $context);
+        $sbcb->viewsingleresponse   = has_capability('mod/sbregistration:viewsingleresponse', $context);
+        $sbcb->deleteresponses      = has_capability('mod/sbregistration:deleteresponses', $context);
+        $sbcb->downloadresponses    = has_capability('mod/sbregistration:downloadresponses', $context);
+        $sbcb->submit               = has_capability('mod/sbregistration:submit', $context);
+        $sbcb->manage               = has_capability('mod/sbregistration:manage', $context);
     }
     return $sbcb;
 }
 
-function registration_get_context($cmid)
+function sbregistration_get_context($cmid)
 {
     static $sbcontext;
 
@@ -56,12 +56,12 @@ function registration_get_context($cmid)
     return $sbcontext;
 }
 
-function registration_create_events($registration)
+function sbregistration_create_events($sbregistration)
 {
     global $DB;
 
     // Rmove any previously created event
-    if ($events = $DB->get_records('event', array('modulename' => 'registration', 'instance' => $registration->id))) {
+    if ($events = $DB->get_records('event', array('modulename' => 'sbregistration', 'instance' => $sbregistration->id))) {
         foreach($events as $event) {
             $event = calendar_event::load($event);
             $event->delete();
@@ -70,67 +70,45 @@ function registration_create_events($registration)
 
     // Add the event
     $event = new stdClass();
-    $event->description     = $registration->intro;
-    $event->format          = $registration->introformat;
-    $event->courseid        = $registration->course;
+    $event->description     = $sbregistration->intro;
+    $event->format          = $sbregistration->introformat;
+    $event->courseid        = $sbregistration->course;
     $event->groupid         = 0;
     $event->userid          = 0;
-    $event->modulename      = 'registration';
-    $event->instance        = $registration->id;
+    $event->modulename      = 'sbregistration';
+    $event->instance        = $sbregistration->id;
     $event->eventtype       = 'open';
-    $event->timestart       = $registration->starttime;
-    $event->visible         = instance_is_visible('registration', $registration);
-    $event->timeduration    = ($registration->endtime - $registration->starttime);
+    $event->timestart       = $sbregistration->starttime;
+    $event->visible         = instance_is_visible('sbregistration', $sbregistration);
+    $event->timeduration    = ($sbregistration->endtime - $sbregistration->starttime);
 
-//    if ($event->timeduration <= REGISTRATION_MAX_EVENT_LENGTH) {
-        // Create a singke event for the whole time
-        $event->name = $registration->name;
-        calendar_event::create($event);
-//    } else {
-//        // Create separate events for the start and end of the period
-//        $event->timeduration = 0;
-//        $event->name = $registration->name . ' (' . get_string('eventopens', 'registration') . ')';
-//        calendar_event::create($event);
-//        unset($event->id);
-//        $event->name = $registration->name . ' (' . get_string('eventcloses', 'registration') . ')';
-//        $event->eventtype = 'close';
-//        calendar_event::create($event);
-//    }
+    // Create a singke event for the whole time
+    $event->name = $sbregistration->name;
+    calendar_event::create($event);
 
     // If set create registration period in the calendar
-    if (($registration->closedate - $registration->opendate > 0) && ($registration->closedate <= $registration->starttime)) {
+    if (($sbregistration->closedate - $sbregistration->opendate > 0) &&
+            ($sbregistration->closedate <= $sbregistration->starttime)) {
         $event = new stdClass();
-        $event->format          = $registration->introformat;
-        $event->courseid        = $registration->course;
-        $event->courseid        = $registration->course;
+        $event->format          = $sbregistration->introformat;
+        $event->courseid        = $sbregistration->course;
+        $event->courseid        = $sbregistration->course;
         $event->groupid         = 0;
         $event->userid          = 0;
-        $event->modulename      = 'registration';
-        $event->instance        = $registration->id;
+        $event->modulename      = 'sbregistration';
+        $event->instance        = $sbregistration->id;
         $event->eventtype       = 'open';
-        $event->timestart       = $registration->opendate;
-        $event->visible         = instance_is_visible('registration', $registration);
-        $event->timeduration    = ($registration->closedate - $registration->opendate);
+        $event->timestart       = $sbregistration->opendate;
+        $event->visible         = instance_is_visible('sbregistration', $sbregistration);
+        $event->timeduration    = ($sbregistration->closedate - $sbregistration->opendate);
 
-//        if ($event->timeduration <= REGISTRATION_MAX_EVENT_LENGTH) {
-            // Create a singke event for the whole time
-            $event->name = get_string('registrationopen', 'registration') . ' ' . $registration->name;
-            calendar_event::create($event);
-//        } else {
-//            // Create separate events for the start and end of the period
-//            $event->timeduration = 0;
-//            $event->name = get_string('registrationopens', 'registration') . ' ' . $registration->name;
-//            calendar_event::create($event);
-//            unset($event->id);
-//            $event->name = get_string('registrationcloses', 'registration') . ' ' . $registration->name;
-//            $event->timestart = $registration->closedate;
-//            $event->eventtype = 'close';
-//            calendar_event::create($event);
-//        }
+        // Create a singke event for the whole time
+        $event->name = get_string('sbregistrationopen', 'sbregistration') . ' ' . $sbregistration->name;
+        calendar_event::create($event);
     }
 }
 
-function registration_get_status_codes()
+function sbregistration_get_status_codes()
 {
     return array(0 => 'Faulty',
                  1 => 'Applied',
@@ -139,7 +117,7 @@ function registration_get_status_codes()
                  4 => 'Emailed');
 }
 
-function registration_get_status($code = 1)
+function sbregistration_get_status($code = 1)
 {
     $codes = registration_get_status_codes();
     if (($code > 0) && ($code < count($codes))) {
@@ -148,19 +126,19 @@ function registration_get_status($code = 1)
     return $codes[0];
 }
 
-function registration_get_status_dropdown($name = 'status', $val = 1)
+function sbregistration_get_status_dropdown($name = 'status', $val = 1)
 {
     return html_writer::select(registration_get_status_codes(), $name, $val);
 }
 
-function registration_process_emails($rid)
+function sbregistration_process_emails($rid)
 {
     global $DB;
 
     $sql = 'SELECT rs.id, rs.userid, rs.status, r.name, r.starttime, r.location, '
          . 'r.acceptsubject, r.acceptemail, r.rejectsubject, r.rejectemail, u.firstname '
-         . 'FROM {registration} r, {registration_submissions} rs, {user} u '
-         . 'WHERE r.id = rs.registration AND rs.userid = u.id '
+         . 'FROM {sbregistration} r, {sbregistration_submissions} rs, {user} u '
+         . 'WHERE r.id = rs.sbregistration AND rs.userid = u.id '
          . 'AND (rs.status = 2 OR rs.status = 3)';
     if (!$submissions = $DB->get_records_sql($sql, array($rid))) {
         return false;
@@ -221,7 +199,7 @@ function registration_process_emails($rid)
     }
 }
 
-function registration_get_editor_options($context)
+function sbregistration_get_editor_options($context)
 {
     global $CFG;
     return array('subdirs'     => 1,

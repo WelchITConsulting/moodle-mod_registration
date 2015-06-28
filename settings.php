@@ -25,8 +25,8 @@ defined('MOODLE_INTERNAL') || die();
 //if ($ADMIN->fulltree) {
 //    $options = array(0 => get_string('no'),
 //                     1 => get_string('yes'));
-//    $str = get_string('configusergraphlong', 'registration');
-//    $settings->add(new admin_setting_configselect('registration_usergraph',
-//                                                  get_string('configusergraph', 'registration'),
+//    $str = get_string('configusergraphlong', 'sbregistration');
+//    $settings->add(new admin_setting_configselect('sbregistration_usergraph',
+//                                                  get_string('configusergraph', 'sbregistration'),
 //                                                  $str, 0, $options));
 //}

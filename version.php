@@ -20,10 +20,10 @@
  * Created  : 24 Jan 2015
  */
 
-$module->version   = 2015062701;
+$module->version   = 2015062800;
 $module->requires  = 2015051100;
 
-$module->component = 'mod_registration';
+$module->component = 'mod_sbregistration';
 $module->cron      = 60 * 60;
 
 $module->maturity  = MATURITY_BETA;

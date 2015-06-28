@@ -22,7 +22,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_registration_install()
+function xmldb_sbregistration_install()
 {
     global $DB;
 

@@ -15,18 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Filename : backup_registration_stepslib
+ * Filename : backup_sbregistration_stepslib
  * Author   : John Welch <jwelch@welchitconsulting.co.uk>
  * Created  : 03 May 2015
  */
 
-class backup_registration_activity_structure_step extends backup_activity_structure_step
+class backup_sbregistration_activity_structure_step extends backup_activity_structure_step
 {
     protected function define_structure()
     {
         $userinfo = $this->get_setting_value('userinfo');
 
-        $registration = new backup_nested_element('registration', array('id'), array(
+        $sbregistration = new backup_nested_element('sbregistration', array('id'), array(
             'course', 'name', 'intro', 'introformat', 'places', 'location', 'starttime',
             'endtime', 'opendate', 'closedate', 'acceptsubject', 'acceptemail',
             'acceptemailformat', 'rejectsubject', 'rejectemail', 'rejectemailformat',
@@ -35,13 +35,13 @@ class backup_registration_activity_structure_step extends backup_activity_struct
         $submissions = new backup_nested_element('submissions');
 
         $submission = new backup_nested_element('submission', array('id'), array(
-            'registration', 'userid', 'notes', 'status', 'timecreated', 'timemodified'));
+            'sbregistration', 'userid', 'notes', 'status', 'timecreated', 'timemodified'));
 
-        $registration->add_child($submissions);
+        $sbregistration->add_child($submissions);
         $submission->add_child($submission);
 
         // Define sources
-        $registration->set_source_table('registration', array('id' => backup::VAR_ACTIVITYID));
-        $submission->set_source_table('registration_submissions', array('registration' => backup::VAR_PARENTID));
+        $sbregistration->set_source_table('sbregistration', array('id' => backup::VAR_ACTIVITYID));
+        $submission->set_source_table('sbregistration_submissions', array('sbregistration' => backup::VAR_PARENTID));
     }
 }

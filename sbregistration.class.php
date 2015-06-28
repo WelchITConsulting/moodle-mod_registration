@@ -20,20 +20,20 @@
  * Created  : 06 Feb 2015
  */
 
-require_once($CFG->dirroot . '/mod/registration/locallib.php');
+require_once($CFG->dirroot . '/mod/sbregistration/locallib.php');
 
 class SmartBridgeRegistration {
 
-    public function __construct( &$course, &$cm, $id = 0, $registration = null)
+    public function __construct( &$course, &$cm, $id = 0, $sbregistration = null)
     {
         global $DB;
 
         if ($id) {
-            $registration = $DB->get_record('registration', array('id' => $id));
+            $sbregistration = $DB->get_record('sbregistration', array('id' => $id));
         }
 
-        if (is_object($registration)) {
-            $properties = get_object_vars($registration);
+        if (is_object($sbregistration)) {
+            $properties = get_object_vars($sbregistration);
             foreach($properties as $prop => $val) {
                 $this->$prop = $val;
             }
@@ -51,7 +51,7 @@ class SmartBridgeRegistration {
 
         // Load the capabilities if not new
         if (!empty($this->id)) {
-            $this->capabilities = registration_load_capabilities($this->cm->id);
+            $this->capabilities = sbregistration_load_capabilities($this->cm->id);
         }
 
         // Determine the periods for the event and the registration
@@ -94,14 +94,14 @@ class SmartBridgeRegistration {
     public function submitted()
     {
         global $DB, $USER;
-        $submissions = (int)$DB->count_records_sql('SELECT COUNT(*) FROM {registration_submissions} WHERE registration=? AND userid=?', array($this->id, $USER->id));
+        $submissions = (int)$DB->count_records_sql('SELECT COUNT(*) FROM {sbregistration_submissions} WHERE registration=? AND userid=?', array($this->id, $USER->id));
         return ($submissions > 0);
     }
 
     public function has_submissions()
     {
         global $DB;
-        $submissions = (int) $DB->count_records_sql('SELECT COUNT(*) FROM {registration_submissions} WHERE registration=?',
+        $submissions = (int) $DB->count_records_sql('SELECT COUNT(*) FROM {sbregistration_submissions} WHERE registration=?',
                                                     array($this->id));
         return ($submissions > 0);
     }
@@ -109,7 +109,5 @@ class SmartBridgeRegistration {
     public function display_event()
     {
         global $DB;
-
-
     }
 }

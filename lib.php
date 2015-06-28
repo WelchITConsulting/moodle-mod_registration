@@ -20,9 +20,9 @@
  * Created  : 24 Jan 2015
  */
 
-require_once($CFG->dirroot . '/mod/registration/locallib.php');
+require_once($CFG->dirroot . '/mod/sbregistration/locallib.php');
 
-function registration_add_instance($data, $mform = null)
+function sbregistration_add_instance($data, $mform = null)
 {
     global $DB;
 
@@ -36,17 +36,17 @@ function registration_add_instance($data, $mform = null)
     $data->timemodified = time();
     $date->timecreated  = $data->timemodified;
 
-    if (!($data->id = $DB->insert_record('registration', $data))) {
+    if (!($data->id = $DB->insert_record('sbregistration', $data))) {
         return false;
     }
 
     // Create the events in the calendar
-    registration_create_events($data);
+    sbregistration_create_events($data);
 
     return $data->id;
 }
 
-function registration_update_instance($data, $mform)
+function sbregistration_update_instance($data, $mform)
 {
     global $DB;
 
@@ -61,25 +61,25 @@ function registration_update_instance($data, $mform)
     $date->id = $data->instance;
 
     // Create the events in the calendar
-    registration_create_events($data);
+    sbregistration_create_events($data);
 
-    return $DB->update_record('registration', $date§);
+    return $DB->update_record('sbregistration', $date§);
 }
 
-function registration_delete_instance($id)
+function sbregistration_delete_instance($id)
 {
     global $DB;
 
-    if (!($regisration = $DB->get_record('registration', array('id' => $id)))) {
+    if (!($sbregisration = $DB->get_record('sbregistration', array('id' => $id)))) {
         return false;
     }
-    if (!$DB->delete_records('registration_submissions', array('registration' => $regisration->id))) {
+    if (!$DB->delete_records('sbregistration_submissions', array('sbregistration' => $sbregisration->id))) {
         return false;
     }
-    if (!$DB->delete_records('registration', array('id' => $regisration->id))) {
+    if (!$DB->delete_records('sbregistration', array('id' => $sbregisration->id))) {
         return false;
     }
-    if ($events = $DB->get_records('event', array('modulename' => 'registration', 'instance' => $registration->id))) {
+    if ($events = $DB->get_records('event', array('modulename' => 'sbregistration', 'instance' => $sbregistration->id))) {
         foreach($events as $event) {
             $event = calendar_event::load($event);
             $event->delete();
@@ -88,25 +88,18 @@ function registration_delete_instance($id)
     return true;
 }
 
-function registration_supports($feature)
+function sbregistration_supports($feature)
 {
     switch($feature) {
-        case FEATURE_BACKUP_MOODLE2:
-            return false;
-        case FEATURE_COMPLETION_HAS_RULES:
-            return false;
-        case FEATURE_COMPLETION_TRACKS_VIEWS:
-            return false;
-        case FEATURE_GRADE_HAS_GRADE:
-            return false;
-        case FEATURE_GROUPINGS:
-            return false;
-        case FEATURE_GROUPS:
-            return false;
-        case FEATURE_GROUPMEMBERSONLY:
-            return false;
-        case FEATURE_SHOW_DESCRIPTION:
-            return false;
+        case FEATURE_BACKUP_MOODLE2:            return false;
+        case FEATURE_COMPLETION_HAS_RULES:      return false;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:   return false;
+        case FEATURE_GRADE_HAS_GRADE:           return false;
+        case FEATURE_GROUPINGS:                 return false;
+        case FEATURE_GROUPS:                    return false;
+        case FEATURE_GROUPMEMBERSONLY:          return false;
+        case FEATURE_SHOW_DESCRIPTION:          return false;
+
         default:
             return null;
     }

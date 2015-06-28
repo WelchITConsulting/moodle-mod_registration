@@ -20,11 +20,11 @@ Author   : John Welch <jwelch@welchitconsulting.co.uk>
 Created  : 24 Jan 2015
 -->
 
-<XMLDB  PATH="mod/registration/db" VERSION="2015050201" COMMENT="XMLDB file for the event registration module"
+<XMLDB  PATH="mod/sbregistration/db" VERSION="2015062800" COMMENT="XMLDB file for the event registration module"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
     <TABLES>
-        <TABLE NAME="registration" COMMENT="Main registration table">
+        <TABLE NAME="sbregistration" COMMENT="Main registration table">
             <FIELDS>
                 <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
                 <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
@@ -50,10 +50,10 @@ Created  : 24 Jan 2015
                 <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
             </KEYS>
         </TABLE>
-        <TABLE NAME="registration_submissions" COMMENT="Submitted registrations">
+        <TABLE NAME="sbregistration_submissions" COMMENT="Submitted registrations">
             <FIELDS>
                 <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
-                <FIELD NAME="registration" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+                <FIELD NAME="sbregistration" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
                 <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
                 <FIELD NAME="notes" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false"/>
                 <FIELD NAME="status" TYPE="char" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false"/>
@@ -62,7 +62,7 @@ Created  : 24 Jan 2015
             </FIELDS>
             <KEYS>
                 <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-                <KEY NAME="registration" TYPE="foreign" FIELDS="registration" REFTABLE="registration" REFFIELDS="id"/>
+                <KEY NAME="sbregistration" TYPE="foreign" FIELDS="sbregistration" REFTABLE="sbregistration" REFFIELDS="id"/>
             </KEYS>
         </TABLE>
     </TABLES>

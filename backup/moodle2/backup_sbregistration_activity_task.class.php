@@ -15,14 +15,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Filename : backup_registration_activity_task
+ * Filename : backup_sbregistration_activity_task
  * Author   : John Welch <jwelch@welchitconsulting.co.uk>
  * Created  : 03 May 2015
  */
 
-require_once($CFG->dirroot . '/mod/registration/backup/moodle2/backup_registration_stepslib.php');
+require_once($CFG->dirroot . '/mod/sbregistration/backup/moodle2/backup_sbregistration_stepslib.php');
 
-class backup_registration_activity_task extends backup_activity_task
+class backup_sbregistration_activity_task extends backup_activity_task
 {
     protected function define_my_settings()
     {
@@ -30,7 +30,7 @@ class backup_registration_activity_task extends backup_activity_task
 
     protected function define_my_steps()
     {
-        $this->add_step(new backup_registration_activity_structure_step('registration_structure', 'registration.xml'));
+        $this->add_step(new backup_sbregistration_activity_structure_step('sbregistration_structure', 'sbregistration.xml'));
     }
 
     static public function encode_content_links($content)
@@ -40,11 +40,11 @@ class backup_registration_activity_task extends backup_activity_task
         $base = preg_quote($CFG->wwwroot, '/');
 
         // Link to the list of registrations
-        $search = '/(' . $base . "\/mod\/registration\/index.php\?id\=)([0-9]+)/";
+        $search = '/(' . $base . "\/mod\/sbregistration\/index.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@QUESTIONNAIREINDEX*$2@$', $content);
 
         // Link to registration view by moduleid
-        $search = '/(' . $base . "\/mod\/registration\/view.php\?id\=)([0-9]+)/";
+        $search = '/(' . $base . "\/mod\/sbregistration\/view.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@QUESTIONNAIREVIEWBYID*$2@$', $content);
 
         return $content;

@@ -22,7 +22,7 @@
 
 $capabilities = array(
 
-    'mod/registration:addinstance' => array(
+    'mod/sbregistration:addinstance' => array(
         'riskbitmask'   => RISK_XSS,
         'captype'       => 'write',
         'contextlevel'  => CONTEXT_COURSE,
@@ -32,7 +32,7 @@ $capabilities = array(
         'clonepermissionsform' => 'moodle/course:manageactivities'
     ),
 
-    'mod/registration:view' => array(
+    'mod/sbregistration:view' => array(
         'captype'       => 'read',
         'contextlevel'  => CONTEXT_MODULE,
         'legacy'        => array(
@@ -45,7 +45,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/registration:viewsingleresponse' => array(
+    'mod/sbregistration:viewsingleresponse' => array(
         'captype'       => 'read',
         'contextlevel'  => CONTEXT_MODULE,
         'legacy'        => array(
@@ -53,7 +53,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/registration:deleteresponses' => array(
+    'mod/sbregistration:deleteresponses' => array(
         'captype'       => 'read',
         'contextlevel'  => CONTEXT_MODULE,
         'legacy'        => array(
@@ -61,7 +61,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/registration:downloadresponses' => array(
+    'mod/sbregistration:downloadresponses' => array(
         'captype'       => 'read',
         'contextlevel'  => CONTEXT_MODULE,
         'legacy'        => array(
@@ -69,7 +69,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/registration:manage' => array(
+    'mod/sbregistration:manage' => array(
         'captype'       => 'read',
         'contextlevel'  => CONTEXT_MODULE,
         'legacy'        => array(
@@ -77,7 +77,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/registration:submit' => array(
+    'mod/sbregistration:submit' => array(
         'captype'       => 'write',
         'contextlevel'  => CONTEXT_MODULE,
         'legacy'        => array(
