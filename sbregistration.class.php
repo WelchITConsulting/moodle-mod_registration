@@ -94,14 +94,14 @@ class SmartBridgeRegistration {
     public function submitted()
     {
         global $DB, $USER;
-        $submissions = (int)$DB->count_records_sql('SELECT COUNT(*) FROM {sbregistration_submissions} WHERE registration=? AND userid=?', array($this->id, $USER->id));
+        $submissions = (int)$DB->count_records_sql('SELECT COUNT(*) FROM {sbregistration_submissions} WHERE sbregistration=? AND userid=?', array($this->id, $USER->id));
         return ($submissions > 0);
     }
 
     public function has_submissions()
     {
         global $DB;
-        $submissions = (int) $DB->count_records_sql('SELECT COUNT(*) FROM {sbregistration_submissions} WHERE registration=?',
+        $submissions = (int) $DB->count_records_sql('SELECT COUNT(*) FROM {sbregistration_submissions} WHERE sbregistration=?',
                                                     array($this->id));
         return ($submissions > 0);
     }
