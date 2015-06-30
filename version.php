@@ -20,7 +20,7 @@
  * Created  : 24 Jan 2015
  */
 
-$module->version   = 2015062800;
+$module->version   = 2015063000;
 $module->requires  = 2015051100;
 
 $module->component = 'mod_sbregistration';
