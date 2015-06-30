@@ -23,13 +23,13 @@
 function xmldb_sbregistration_upgrade($oldversion = 0)
 {
     global $DB;
-    $dbman = $DB->get_manager();
+//    $dbman = $DB->get_manager();
 
-    if ($oldversion < 20150062800) {
-
-        // Registration savepoint reached
-        upgrade_mod_savepoint(true, 2015062800, 'sbregistration');
-    }
+//    if ($oldversion < 20150062800) {
+//
+//        // Registration savepoint reached
+//        upgrade_mod_savepoint(true, 2015062800, 'sbregistration');
+//    }
 
     return true;
 }
