@@ -28,7 +28,7 @@ function xmldb_sbregistration_upgrade($oldversion = 0)
     if ($oldversion < 20150062800) {
 
         // Registration savepoint reached
-        upgrade_mod_savepoint(true, 2015062800, 'registration');
+        upgrade_mod_savepoint(true, 2015062800, 'sbregistration');
     }
 
     return true;
